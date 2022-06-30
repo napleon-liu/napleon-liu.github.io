@@ -132,6 +132,10 @@
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
   </nav>
 </div>
 
@@ -197,7 +201,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-06-30 14:36:42 / 修改时间：15:18:31" itemprop="dateCreated datePublished" datetime="2022-06-30T14:36:42+08:00">2022-06-30</time>
+      <time title="创建时间：2022-06-30 14:36:42 / 修改时间：16:11:59" itemprop="dateCreated datePublished" datetime="2022-06-30T14:36:42+08:00">2022-06-30</time>
     </span>
 
   
@@ -210,8 +214,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。<br>电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。<br>本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，博主水平有限，不能保证文章中涵盖了扩容过程可能出现的所有错误。一定要谨慎，数据一旦丢失就不可恢复了，本人概不负责。<br>Tips:操作过程中务必将电脑接上电源，以免电脑中途关机，造成不可挽回的损失。</p>
-<h1 id="磁盘的分区"><a href="#磁盘的分区" class="headerlink" title="磁盘的分区"></a>磁盘的分区</h1><p>右击“此电脑”，可以看到“管理”，点开“管理”。<br><img src="/../images/expand_c/management.png" alt="管理我的电脑" title="管理"></p>
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。<br>电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。<br>本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限，不能保证文章中涵盖了扩容过程可能出现的所有错误。一定要谨慎，数据一旦丢失就不可恢复了。<br>Tips:操作过程中务必将电脑接上电源，以免电脑中途关机，造成不可挽回的损失。</p>
+<h1 id="磁盘的分区"><a href="#磁盘的分区" class="headerlink" title="磁盘的分区"></a>磁盘的分区</h1><p>右击‘此电脑’，可以看到‘管理’，点开‘管理’。<br><img src="/../images/expand_c/management.png" alt="管理我的电脑" title="管理"><br>进入管理界面后，点击左侧的“磁盘管理”，即可进入电脑的磁盘页面。可以看到，我的电脑有两个磁盘，其中磁盘0未分区，磁盘1分为C、D两个分区。<br><img src="/../images/expand_c/management2.png" alt="磁盘管理器" title="磁盘管理器"><br>首先要压缩D盘，如果你有多个磁盘也可以压缩别的磁盘，但不建议这样做。因为磁盘的读取方式不一致可能会造成错误。<br>右击分区D，选择压缩分区，并输入你要压缩的空间大小。<br><img src="/../images/expand_c/zip.png" alt="压缩分区" title="压缩分区"><br>压缩后，你可以看到现在有了未分配的空间。<br>检查一下，可以发现，当前未分配的空间可以给D盘扩容，但却不能给C盘扩容。这是因为逻辑分区之间具有顺序关系。可以理解成当前未分配的空间只能给它前面的分区扩容，而不能给它不相邻的分区扩容。<br><img src="/../images/expand_c/afterzip.png" alt="未分配的空间" title="未分配的空间"><br><img src="/../images/expand_c/expand_d.png" alt="D盘的扩容" title="D盘的扩容"><br><img src="/../images/expand_c/cant_expand_c.png" alt="C盘的扩容" title="C盘的扩容"><br>只使用系统的磁盘管理器是不能直接给C盘扩容的，除非先把数据拷贝好，然后将D盘格式化，再重新将1磁盘分区。这样过于麻烦，下面介绍一下利用软件给C盘扩容的方法。</p>
+<h1 id="使用DiskGenius实现无损扩容"><a href="#使用DiskGenius实现无损扩容" class="headerlink" title="使用DiskGenius实现无损扩容"></a>使用DiskGenius实现无损扩容</h1><p>DiskGenius是一款免费的国产磁盘管理软件，它能够直接用未分区的逻辑分区给主分区扩容。前往DiskGenius的官网可直接下载。<br>进入软件，选中C盘，点击上方的分区选项卡选择扩容分区。<br><img src="/../images/expand_c/DiskGenius.png" alt="扩容分区" title="扩容分区"><br>但现在还别着急，磁盘中可能有的簇未使用，却被标记成了已使用。为了解决这一问题，需要按<code>Windows+x</code>，选择‘Windows PowerShell’，进入管理员界面。<br>在命令行中键入<code>chkdsk /f /x c:</code>,其中’c’代表盘符，建议对所有盘都扫描一遍，保证不出问题。<br>回到刚才的步骤，现在选择未分配的空间，然后按照提示进行操作。<br><img src="/../images/expand_c/expand.png" alt="扩容"><br>然后选中‘重启’,等待软件进行操作，重启两次后，你的C盘就扩容成功了！</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>网上的教程鱼龙混杂，大多是互相复制粘贴，好多操作都已经过时了，为了扩容C盘我花费了一下午，到处参考教程，不断的试错，最终写成了这篇博客，如果你觉得有用的话，可以分享给你的朋友哦。</p>
 
       
     </div>
