@@ -20,37 +20,25 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"www.napleon.cn","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限">
-<meta property="og:type" content="article">
-<meta property="og:title" content="教你如何给C盘扩容">
-<meta property="og:url" content="https://www.napleon.cn/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/index.html">
+    <meta name="description" content="真正的慷慨，就是把一切都献给现在。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Napleon">
+<meta property="og:url" content="https://www.napleon.cn/page/2/index.html">
 <meta property="og:site_name" content="Napleon">
-<meta property="og:description" content="前言作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限">
+<meta property="og:description" content="真正的慷慨，就是把一切都献给现在。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/management.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/management2.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/zip.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/afterzip.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/expand_d.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/cant_expand_c.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/DiskGenius.png">
-<meta property="og:image" content="https://www.napleon.cn/images/expand_c/expand.png">
-<meta property="article:published_time" content="2022-06-30T06:36:42.000Z">
-<meta property="article:modified_time" content="2023-03-30T12:52:36.321Z">
 <meta property="article:author" content="napleon-liu">
-<meta property="article:tag" content="computer">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.napleon.cn/images/expand_c/management.png">
 
 
-<link rel="canonical" href="https://www.napleon.cn/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/">
+<link rel="canonical" href="https://www.napleon.cn/page/2/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.napleon.cn/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/","path":"2022/06/30/教你如何给C盘扩容/","title":"教你如何给C盘扩容"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>教你如何给C盘扩容 | Napleon</title>
+<title>Napleon</title>
   
 
 
@@ -80,7 +68,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">Napleon</p>
+      <h1 class="site-title">Napleon</h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">Napleon的个人博客</p>
@@ -113,7 +101,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -126,7 +114,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%9A%84%E5%88%86%E5%8C%BA"><span class="nav-number">2.</span> <span class="nav-text">磁盘的分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8DiskGenius%E5%AE%9E%E7%8E%B0%E6%97%A0%E6%8D%9F%E6%89%A9%E5%AE%B9"><span class="nav-number">3.</span> <span class="nav-text">使用DiskGenius实现无损扩容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -200,17 +187,206 @@
 </noscript>
 
 
-    <div class="main-inner post posts-expand">
+    <div class="main-inner index posts-expand">
 
-
-  
+    
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.napleon.cn/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Christ.jpg">
+      <meta itemprop="name" content="napleon-liu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Napleon">
+      <meta itemprop="description" content="真正的慷慨，就是把一切都献给现在。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Napleon">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">9.虚拟内存</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-29 15:26:42" itemprop="dateCreated datePublished" datetime="2023-03-29T15:26:42+08:00">2023-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-30 21:42:49" itemprop="dateModified" datetime="2023-03-30T21:42:49+08:00">2023-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSAPP/" itemprop="url" rel="index"><span itemprop="name">CSAPP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>虚拟存储器</strong>：</p>
+<p>三个能力：</p>
+<ol>
+<li>将主存看成是一个存储在磁盘上的地址空间的高速缓存，在主存中只保留活动区域，并根据需要在磁盘和主存之间来回传送数据，通过这种方式，它高效地使用了主存。</li>
+<li>为每个进程提供了一致的地址空间，从而简化了存储管理。</li>
+<li>保护了每个进程的地址空间不被其他进程破坏。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Christ.jpg">
+      <meta itemprop="name" content="napleon-liu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Napleon">
+      <meta itemprop="description" content="真正的慷慨，就是把一切都献给现在。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Napleon">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" class="post-title-link" itemprop="url">8.异常控制流</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-29 11:17:27" itemprop="dateCreated datePublished" datetime="2023-03-29T11:17:27+08:00">2023-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-30 21:19:23" itemprop="dateModified" datetime="2023-03-30T21:19:23+08:00">2023-03-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CSAPP/" itemprop="url" rel="index"><span itemprop="name">CSAPP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>CSAPP关于异常处理的章节。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://www.napleon.cn/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -224,13 +400,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="教你如何给C盘扩容 | Napleon">
+      <meta itemprop="name" content="undefined | Napleon">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          教你如何给C盘扩容
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/" class="post-title-link" itemprop="url">教你如何给C盘扩容</a>
+        </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -269,15 +445,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。<br>电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。<br>本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限，不能保证文章中涵盖了扩容过程可能出现的所有错误。一定要谨慎，数据一旦丢失就不可恢复了。<br>Tips:操作过程中务必将电脑接上电源，以免电脑中途关机，造成不可挽回的损失。</p>
-<span id="more"></span>
-
-
-
-<h1 id="磁盘的分区"><a href="#磁盘的分区" class="headerlink" title="磁盘的分区"></a>磁盘的分区</h1><p>右击‘此电脑’，可以看到‘管理’，点开‘管理’。<br><img src="/../images/expand_c/management.png" alt="管理我的电脑" title="管理"><br>进入管理界面后，点击左侧的“磁盘管理”，即可进入电脑的磁盘页面。可以看到，我的电脑有两个磁盘，其中磁盘0未分区，磁盘1分为C、D两个分区。<br><img src="/../images/expand_c/management2.png" alt="磁盘管理器" title="磁盘管理器"><br>首先要压缩D盘，如果你有多个磁盘也可以压缩别的磁盘，但不建议这样做。因为磁盘的读取方式不一致可能会造成错误。<br>右击分区D，选择压缩分区，并输入你要压缩的空间大小。<br><img src="/../images/expand_c/zip.png" alt="压缩分区" title="压缩分区"><br>压缩后，你可以看到现在有了未分配的空间。<br>检查一下，可以发现，当前未分配的空间可以给D盘扩容，但却不能给C盘扩容。这是因为逻辑分区之间具有顺序关系。可以理解成当前未分配的空间只能给它前面的分区扩容，而不能给它不相邻的分区扩容。<br><img src="/../images/expand_c/afterzip.png" alt="未分配的空间" title="未分配的空间"><br><img src="/../images/expand_c/expand_d.png" alt="D盘的扩容" title="D盘的扩容"><br><img src="/../images/expand_c/cant_expand_c.png" alt="C盘的扩容" title="C盘的扩容"><br>只使用系统的磁盘管理器是不能直接给C盘扩容的，除非先把数据拷贝好，然后将D盘格式化，再重新将1磁盘分区。这样过于麻烦，下面介绍一下利用软件给C盘扩容的方法。</p>
-<h1 id="使用DiskGenius实现无损扩容"><a href="#使用DiskGenius实现无损扩容" class="headerlink" title="使用DiskGenius实现无损扩容"></a>使用DiskGenius实现无损扩容</h1><p>DiskGenius是一款免费的国产磁盘管理软件，它能够直接用未分区的逻辑分区给主分区扩容。前往DiskGenius的官网可直接下载。<br>进入软件，选中C盘，点击上方的分区选项卡选择扩容分区。<br><img src="/../images/expand_c/DiskGenius.png" alt="扩容分区" title="扩容分区"><br>但现在还别着急，磁盘中可能有的簇未使用，却被标记成了已使用。为了解决这一问题，需要按<code>Windows+x</code>，选择‘Windows PowerShell’，进入管理员界面。<br>在命令行中键入<code>chkdsk /f /x c:</code>,其中’c’代表盘符，建议对所有盘都扫描一遍，保证不出问题。<br>回到刚才的步骤，现在选择未分配的空间，然后按照提示进行操作。<br><img src="/../images/expand_c/expand.png" alt="扩容"><br>然后选中‘重启’,等待软件进行操作，重启两次后，你的C盘就扩容成功了！</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>网上的教程鱼龙混杂，大多是互相复制粘贴，好多操作都已经过时了，为了扩容C盘我花费了一下午，到处参考教程，不断的试错，最终写成了这篇博客，如果你觉得有用的话，可以分享给你的朋友哦。</p>
-
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。<br>电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。<br>本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限，不能保证文章中涵盖了扩容过程可能出现的所有错误。一定要谨慎，数据一旦丢失就不可恢复了。<br>Tips:操作过程中务必将电脑接上电源，以免电脑中途关机，造成不可挽回的损失。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
     
@@ -285,21 +462,8 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/computer/" rel="tag"># computer</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" rel="next" title="8.异常控制流">
-                  8.异常控制流 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
+      
     </footer>
   </article>
 </div>
@@ -307,7 +471,9 @@
 
 
 
-
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </div>
   </main>
