@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.napleon.cn","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="链接（linking）是将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可被加载（复制）到内存并执行。链接可以执行于编译时（compile time），也就是在源代码被翻译成机器代码时；也可以执行于加载时（load time），也就是在程序被加载器（loader）加载到内存并执行时；甚至执行于运行时（runtime），也就是由应用程序来执行。在早期的计算机系统中，链接是手动执行的。在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7:链接">
+<meta property="og:url" content="https://www.napleon.cn/2023/04/09/7-%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Napleon">
+<meta property="og:description" content="链接（linking）是将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可被加载（复制）到内存并执行。链接可以执行于编译时（compile time），也就是在源代码被翻译成机器代码时；也可以执行于加载时（load time），也就是在程序被加载器（loader）加载到内存并执行时；甚至执行于运行时（runtime），也就是由应用程序来执行。在早期的计算机系统中，链接是手动执行的。在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8jCXJzp_pYD5VGG8o%2F-MI8oSBe7kBcpszDCC7T%2F07-02%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5.png?alt=media&token=4a1bcea6-9bd1-4222-98e3-fc37075a2c56">
+<meta property="og:image" content="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8p7rbEV-s_nV5Ru6X%2F-MI8pJh5IxzFL80HMTY3%2F07-03%20%E5%85%B8%E5%9E%8B%E7%9A%84ELF%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6.png?alt=media&token=d9d57c1c-24ef-401a-bf91-04bdf60fad68">
+<meta property="og:image" content="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8p7rbEV-s_nV5Ru6X%2F-MI8pkPoBiVWj0eMXoIA%2F07-08%20%E4%B8%8E%E9%9D%99%E6%80%81%E5%BA%93%E9%93%BE%E6%8E%A5.png?alt=media&token=fcb51f44-d9fc-4e95-8889-4888b9f920ae">
+<meta property="og:image" content="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8qpMNa8rVv2h1gw56%2F-MI8r4myxZNQCTrFzKsH%2F07-16%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%85%B1%E4%BA%AB%E5%BA%93.png?alt=media&token=0901e781-87bf-4e4f-b1f9-31ca05c51f7c">
+<meta property="article:published_time" content="2023-04-09T08:24:36.000Z">
+<meta property="article:modified_time" content="2023-04-09T13:36:46.552Z">
+<meta property="article:author" content="napleon-liu">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8jCXJzp_pYD5VGG8o%2F-MI8oSBe7kBcpszDCC7T%2F07-02%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5.png?alt=media&token=4a1bcea6-9bd1-4222-98e3-fc37075a2c56">
+
+
+<link rel="canonical" href="https://www.napleon.cn/2023/04/09/7-%E9%93%BE%E6%8E%A5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.napleon.cn/2023/04/09/7-%E9%93%BE%E6%8E%A5/","path":"2023/04/09/7-链接/","title":"7:链接"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>7:链接 | Napleon</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Napleon</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Napleon的个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#7-1-%E7%BC%96%E8%AF%91%E5%99%A8%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">7.1 编译器驱动程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-2-%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-number">2.</span> <span class="nav-text">7.2 静态链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-3-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">7.3 目标文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-4-%E5%8F%AF%E9%87%8D%E5%AE%9A%E5%90%91%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">7.4 可重定向目标文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-5-%E7%AC%A6%E5%8F%B7%E5%92%8C%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="nav-number">5.</span> <span class="nav-text">7.5 符号和符号表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-6-%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">7.6 符号解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-6-1-%E9%93%BE%E6%8E%A5%E5%99%A8%E5%A6%82%E4%BD%95%E8%A7%A3%E6%9E%90%E5%A4%9A%E9%87%8D%E5%AE%9A%E4%B9%89%E7%9A%84%E5%85%A8%E5%B1%80%E7%AC%A6%E5%8F%B7"><span class="nav-number">6.1.</span> <span class="nav-text">7.6.1 链接器如何解析多重定义的全局符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-6-2-%E4%B8%8E%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">7.6.2 与静态链接库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-6-3-%E9%93%BE%E6%8E%A5%E5%99%A8%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%BA%93%E6%9D%A5%E8%A7%A3%E6%9E%90%E5%BC%95%E7%94%A8"><span class="nav-number">6.3.</span> <span class="nav-text">7.6.3 链接器如何使用静态库来解析引用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-9-%E5%8A%A0%E8%BD%BD%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">7.9 加载可执行目标文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-10-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%85%B1%E4%BA%AB%E5%BA%93"><span class="nav-number">8.</span> <span class="nav-text">7.10 动态链接共享库</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="napleon-liu"
+      src="/images/Christ.jpg">
+  <p class="site-author-name" itemprop="name">napleon-liu</p>
+  <div class="site-description" itemprop="description">Talk is cheap, give me the code.</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/napleon-liu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;napleon-liu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+
+      
+      <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+        <div class="widget-wrap">
+          <div id="myCanvasContainer" class="widget tagcloud">
+            <canvas width="150" height="150" id="resCanvas" style="width=100%">
+              <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSAPP/" rel="tag">CSAPP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a><span class="tag-list-count">1</span></li></ul>
+            </canvas>
+          </div>
+        </div>
+      
+
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.napleon.cn/2023/04/09/7-%E9%93%BE%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Christ.jpg">
+      <meta itemprop="name" content="napleon-liu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Napleon">
+      <meta itemprop="description" content="Talk is cheap, give me the code.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="7:链接 | Napleon">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          7:链接
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-04-09 16:24:36 / 修改时间：21:36:46" itemprop="dateCreated datePublished" datetime="2023-04-09T16:24:36+08:00">2023-04-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>链接（linking）是将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可被加载（复制）到内存并执行。链接可以执行于编译时（compile time），也就是在源代码被翻译成机器代码时；也可以执行于加载时（load time），也就是在程序被加载器（loader）加载到内存并执行时；甚至执行于运行时（runtime），也就是由应用程序来执行。在早期的计算机系统中，链接是手动执行的。在现代系统中，链接是由叫做链接器（linker）的程序自动执行的。</p>
+<span id="more"></span>
+
+
+
+<h1 id="7-1-编译器驱动程序"><a href="#7-1-编译器驱动程序" class="headerlink" title="7.1 编译器驱动程序"></a>7.1 编译器驱动程序</h1><p>下面是两个运行示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.c</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fum</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n)</span>;</span><br><span class="line"><span class="type">int</span> <span class="built_in">array</span>[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> val = sum(<span class="built_in">array</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sum.c</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">sum</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">int</span> i, s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        s += a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Linux下编译该C程序的命令</span></span><br><span class="line">linux&gt; gcc -Og -o prog main.c sum.c</span><br></pre></td></tr></table></figure>
+
+<img src="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8jCXJzp_pYD5VGG8o%2F-MI8oSBe7kBcpszDCC7T%2F07-02%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5.png?alt=media&token=4a1bcea6-9bd1-4222-98e3-fc37075a2c56" alt="img" style="zoom:50%;" />
+
+<h1 id="7-2-静态链接"><a href="#7-2-静态链接" class="headerlink" title="7.2 静态链接"></a>7.2 静态链接</h1><p>静态链接器 (static linker)以一组可重定向的目标文件和命令行参数作为输入，生成一个完全链接的、可以加载和运行的可执行目标文件作为输出。</p>
+<p>input:</p>
+<p>​	由各种不同的的代码和数据节构成，每一节都是一个连续的字节序列。</p>
+<p>链接器的任务：</p>
+<ul>
+<li>符号解析。将每个符号引用与每个符号定义关联起来。</li>
+<li>重定位。 编译器和汇编器生成从地址0开始代码和数据节。链接器通过把每个符号定义和内存位置关联起来，从而重定向这些节。然后修改所有对这些符号的引用。使得他们指向这个内存位置。链接器使用汇编器产生的重定位条目的详细指令，不加甄别地执行这样的重定位。</li>
+</ul>
+<h1 id="7-3-目标文件"><a href="#7-3-目标文件" class="headerlink" title="7.3 目标文件"></a>7.3 目标文件</h1><p>目标文件有三种形式：</p>
+<ul>
+<li><strong>可重定位目标文件</strong>。包含二进制代码和数据，其形式可以在编译时与其他可重定位目标文件合并起来，创建一个可执行目标文件。</li>
+<li><strong>可执行目标文件</strong>。包含二进制代码和数据，其形式可以被直接复制到内存并执行。</li>
+<li><strong>共享目标文件</strong>。一种特殊类型的可重定位目标文件，可以在加载或者运行时被动态地加载进内存并链接。</li>
+</ul>
+<h1 id="7-4-可重定向目标文件"><a href="#7-4-可重定向目标文件" class="headerlink" title="7.4 可重定向目标文件"></a>7.4 可重定向目标文件</h1><p>下图展示了一个典型的ELF可重定向目标文件的格式。</p>
+<img src="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8p7rbEV-s_nV5Ru6X%2F-MI8pJh5IxzFL80HMTY3%2F07-03%20%E5%85%B8%E5%9E%8B%E7%9A%84ELF%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6.png?alt=media&token=d9d57c1c-24ef-401a-bf91-04bdf60fad68" alt="img" style="zoom:80%;" />
+
+<p><strong>ELF 头</strong>（ELF header）以一个 16 字节的序列开始，这个序列描述了生成该文件的系统的字的大小和字节顺序。</p>
+<p>夹在 ELF 头和节头部表之间的都是节。一个典型的 ELF 可重定位目标文件包含下面几个节： </p>
+<ul>
+<li><strong>.text：</strong>已编译程序的机器代码。</li>
+<li><strong>.rodata：</strong>只读数据，比如 printf 语句中的格式串和开关语句的跳转表。</li>
+<li><strong>.data：</strong>已初始化的全局和静态 C 变量。局部 C 变量在运行时被保存在栈中，既不岀现在 .data 节中，也不岀现在 .bss 节中。</li>
+<li><strong>.bss：</strong>未初始化的全局和静态 C 变量，以及所有被初始化为 0 的全局或静态变量。在目标文件中这个节不占据实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为 0。</li>
+<li><strong>.symtab：</strong>一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。一些程序员错误地认为必须通过 -g 选项来编译一个程序，才能得到符号表信息。实际上，每个可重定位目标文件在 .symtab 中都有一张符号表（除非程序员特意用 STRIP 命令去掉它）。然而，和编译器中的符号表不同，.symtab 符号表不包含局部变量的条目。</li>
+<li><strong>.rel.text：</strong>一个 .text 节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。一般而言，任何调用外部函数或者引用全局变量的指令都需要修改。另一方面，调用本地函数的指令则不需要修改。注意，可执行目标文件中并不需要重定位信息，因此通常省略，除非用户显式地指示链接器包含这些信息。</li>
+<li><strong>.rel.data：</strong>被模块引用或定义的所有全局变量的重定位信息。一般而言，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。</li>
+<li><strong>.debug：</strong>一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的 C 源文件。只有以 - g 选项调用编译器驱动程序时，才 会得到这张表。</li>
+<li><strong>.line：</strong>原始 C 源程序中的行号和 .text 节中机器指令之间的映射。只有以 -g 选项调用编译器驱动程序时，才会得到这张表。</li>
+<li><strong>.strtab：</strong>一个字符串表，其内容包括 .symtab 和 .debug 节中的符号表，以及节头部中的节名字。字符串表就是以 null 结尾的字符串的序列。</li>
+</ul>
+<h1 id="7-5-符号和符号表"><a href="#7-5-符号和符号表" class="headerlink" title="7.5 符号和符号表"></a>7.5 符号和符号表</h1><p>在链接器的上下文中，有三种不同的符号：</p>
+<ul>
+<li><p>由模块 m 定义并能被其他模块引用的<strong>全局符号</strong>。全局链接器符号对应于非静态的 C 函数和全局变量。</p>
+</li>
+<li><p>由其他模块定义并被模块 m 引用的<strong>全局符号</strong>。这些符号称为外部符号，对应于在其他模块中定义的非静态 C 函数和全局变量。</p>
+</li>
+<li><p>只被模块 m 定义和引用的<strong>局部符号</strong>。它们对应于带 static 属性的 C 函数和全局变量。这些符号在模块 m 中任何位置都可见，但是不能被其他模块引用。</p>
+</li>
+</ul>
+<p>.symtab 中的符号表不包含对应于本地非静态程序变量的任何符号。这些符号在运行时在栈中被管理。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ELF符号表条目</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> name;	<span class="comment">// 字符串表中的字节偏移</span></span><br><span class="line">    <span class="type">char</span> type:<span class="number">4</span>;	<span class="comment">// 函数或者数据</span></span><br><span class="line">    <span class="type">char</span> binding:<span class="number">4</span>; <span class="comment">// 本地或者全局</span></span><br><span class="line">    <span class="type">short</span> section;	<span class="comment">// 分配的目标文件的节</span></span><br><span class="line">    <span class="type">long</span> value;	<span class="comment">// 对齐要求</span></span><br><span class="line">    <span class="type">long</span> size;	<span class="comment">// 最小的大小</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-6-符号解析"><a href="#7-6-符号解析" class="headerlink" title="7.6 符号解析"></a>7.6 符号解析</h1><h2 id="7-6-1-链接器如何解析多重定义的全局符号"><a href="#7-6-1-链接器如何解析多重定义的全局符号" class="headerlink" title="7.6.1 链接器如何解析多重定义的全局符号"></a>7.6.1 链接器如何解析多重定义的全局符号</h2><p>在编译时，编译器向汇编器输出每个全局符号的强弱类型。汇编器将这个信息编码在可重定向目标文件的符号表里。函数和已初始化的全局变量是强符号，未初始化的全局变量是弱符号。</p>
+<p>链接器处理多重定义的符号名的规则如下：</p>
+<ul>
+<li><p><strong>规则 1：</strong>不允许有多个同名的强符号。</p>
+</li>
+<li><p><strong>规则 2：</strong>如果有一个强符号和多个弱符号同名，那么选择强符号。</p>
+</li>
+<li><p><strong>规则 3：</strong>如果有多个弱符号同名，那么从这些弱符号中任意选择一个。</p>
+</li>
+</ul>
+<h2 id="7-6-2-与静态链接库"><a href="#7-6-2-与静态链接库" class="headerlink" title="7.6.2 与静态链接库"></a>7.6.2 与静态链接库</h2><p>编译系统提供了一种机制，将所有相关的目标模块打包成一个单独的文件，称为静态库，可以作为链接器的输入。当链接器构造一个输出的可执行文件时，它只复制静态库里被应用程序引用的目标板块。</p>
+<p>与静态库链接的示意图如下图所示：</p>
+<img src="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8p7rbEV-s_nV5Ru6X%2F-MI8pkPoBiVWj0eMXoIA%2F07-08%20%E4%B8%8E%E9%9D%99%E6%80%81%E5%BA%93%E9%93%BE%E6%8E%A5.png?alt=media&token=fcb51f44-d9fc-4e95-8889-4888b9f920ae" alt="img" style="zoom:80%;" />
+
+<h2 id="7-6-3-链接器如何使用静态库来解析引用"><a href="#7-6-3-链接器如何使用静态库来解析引用" class="headerlink" title="7.6.3 链接器如何使用静态库来解析引用"></a>7.6.3 链接器如何使用静态库来解析引用</h2><h1 id="7-9-加载可执行目标文件"><a href="#7-9-加载可执行目标文件" class="headerlink" title="7.9 加载可执行目标文件"></a>7.9 加载可执行目标文件</h1><p>当在命令号中键入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux &gt; ./prog</span><br></pre></td></tr></table></figure>
+
+<p>Shell调用被称为加载器的操作系统代码来运行该可执行目标文件。任何Linux程序都可以通过调用execve函数来调用加载器。加载器将可执行目标文件中的代码和数据从磁盘复制到内存当中，然后通过跳转到程序的第一条指令或入口点来运行该程序。</p>
+<h1 id="7-10-动态链接共享库"><a href="#7-10-动态链接共享库" class="headerlink" title="7.10 动态链接共享库"></a>7.10 动态链接共享库</h1><p><strong>共享库</strong>（shared library）是致力于解决静态库缺陷的一个现代创新产物。共享库是一个目标模块，在运行或加载时，可以加载到任意的内存地址，并和一个在内存中的程序链接起来。这个过程称为<strong>动态链接</strong>（dynamic linking），是由一个叫做<strong>动态链接器</strong>（dynamic linker）的程序来执行的。共享库也称为<strong>共享目标</strong>（shared object），在 Linux 系统中通常用 .so 后缀来表示。微软的操作系统大量地使用了共享库，它们称为 DLL（动态链接库）。</p>
+<p>动态链接过程如下图所示：</p>
+<img src="https://1087580735-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-MHt_spaxGgCbp2POnfq%2F-MI8qpMNa8rVv2h1gw56%2F-MI8r4myxZNQCTrFzKsH%2F07-16%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%85%B1%E4%BA%AB%E5%BA%93.png?alt=media&token=0901e781-87bf-4e4f-b1f9-31ca05c51f7c" alt="img" style="zoom:67%;" />
+
+<p>为了构造图中示例向量例程的共享库，我们调用编译器驱动程序，给编译器和链接器如下指令：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">linux &gt; gcc -shared -fpic -o libvector.so addvec.c multvec.c</span><br><span class="line"><span class="comment">// -shared选项指示链接器创建一个共享的目标文件</span></span><br><span class="line"><span class="comment">// -fpic选项指示编译器生成与位置无关的代码</span></span><br></pre></td></tr></table></figure>
+
+<p>链接的指令：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux &gt; gcc -o prog2l main2.c ./libvector.so</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/08/10-%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/" rel="prev" title="10:系统级IO">
+                  <i class="fa fa-chevron-left"></i> 10:系统级IO
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/09/%E6%B5%85%E8%B0%88mmap/" rel="next" title="浅谈mmap">
+                  浅谈mmap <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">napleon-liu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
