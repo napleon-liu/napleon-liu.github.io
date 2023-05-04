@@ -1,257 +1,167 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.napleon.cn","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
-    <meta name="description" content="CSAPP关于异常处理的章节。">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>8.异常控制流 | Napleon</title><meta name="author" content="napleon-liu"><meta name="copyright" content="napleon-liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CSAPP关于异常处理的章节。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="8.异常控制流">
 <meta property="og:url" content="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/index.html">
 <meta property="og:site_name" content="Napleon">
 <meta property="og:description" content="CSAPP关于异常处理的章节。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.napleon.cn/img/avatar.jpg">
 <meta property="article:published_time" content="2023-03-29T03:17:27.000Z">
 <meta property="article:modified_time" content="2023-04-09T02:42:33.741Z">
 <meta property="article:author" content="napleon-liu">
 <meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.napleon.cn/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '8.异常控制流',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-09 10:42:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<link rel="canonical" href="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/","path":"2023/03/29/8-异常控制流/","title":"8.异常控制流"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>8.异常控制流 | Napleon</title>
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Napleon</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">Napleon的个人博客</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-guestbook"><a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
-  </ul>
-</nav>
-
-
-
-
-</div>
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#8-4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">8.4进程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-1-%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8BID"><span class="nav-number">1.1.</span> <span class="nav-text">8.4.1 获取进程ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-2-%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BB%88%E6%AD%A2%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">8.4.2 创建和终止进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-3-%E5%9B%9E%E6%94%B6%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">8.4.3 回收子进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-6"><span class="nav-number">1.4.</span> <span class="nav-text">8.4.6</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-5-%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.</span> <span class="nav-text">8.5 信号</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-1-%E4%BF%A1%E5%8F%B7%E7%9A%84%E6%9C%AF%E8%AF%AD"><span class="nav-number">2.1.</span> <span class="nav-text">8.5.1 信号的术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-2-%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.2.</span> <span class="nav-text">8.5.2 发送信号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%9B%E7%A8%8B%E7%BB%84"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 进程组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%94%A8-x2F-bin-x2F-kill%E7%A8%8B%E5%BA%8F%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 用&#x2F;bin&#x2F;kill程序发送信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BB%8E%E9%94%AE%E7%9B%98%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.从键盘发送信号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%94%A8kill%E5%87%BD%E6%95%B0%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">2.2.4.</span> <span class="nav-text">4. 用kill函数发送信号</span></a></li></ol></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="napleon-liu"
-      src="/images/Christ.jpg">
-  <p class="site-author-name" itemprop="name">napleon-liu</p>
-  <div class="site-description" itemprop="description">Talk is cheap, give me the code.</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">11</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author site-overview-item animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/napleon-liu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;napleon-liu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-  </div>
-
-
-
-        </div>
-      </div>
-
-      
-      <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
-      <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
-        <div class="widget-wrap">
-          <div id="myCanvasContainer" class="widget tagcloud">
-            <canvas width="150" height="150" id="resCanvas" style="width=100%">
-              <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSAPP/" rel="tag">CSAPP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a><span class="tag-list-count">1</span></li></ul>
-            </canvas>
-          </div>
-        </div>
-      
-
-
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
-    </header>
-
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Christ.jpg">
-      <meta itemprop="name" content="napleon-liu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Napleon">
-      <meta itemprop="description" content="Talk is cheap, give me the code.">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="8.异常控制流 | Napleon">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          8.异常控制流
-        </h1>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-03-29 11:17:27" itemprop="dateCreated datePublished" datetime="2023-03-29T11:17:27+08:00">2023-03-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-04-09 10:42:33" itemprop="dateModified" datetime="2023-04-09T10:42:33+08:00">2023-04-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-        <p>CSAPP关于异常处理的章节。</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Napleon"><img class="site-icon" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.vpHnvEwhS1EfSJiTf45yHQHaHa?pid=ImgDet&amp;w=900&amp;h=900&amp;rs=1"/><span class="site-name">Napleon</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">8.异常控制流</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-29T03:17:27.000Z" title="发表于 2023-03-29 11:17:27">2023-03-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-09T02:42:33.741Z" title="更新于 2023-04-09 10:42:33">2023-04-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="8.异常控制流"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>CSAPP关于异常处理的章节。</p>
 <span id="more"></span>
 
 <h1 id="8-4进程控制"><a href="#8-4进程控制" class="headerlink" title="8.4进程控制"></a>8.4进程控制</h1><h2 id="8-4-1-获取进程ID"><a href="#8-4-1-获取进程ID" class="headerlink" title="8.4.1 获取进程ID"></a>8.4.1 获取进程ID</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">getpid</span><span class="params">(<span class="type">void</span>)</span>;	<span class="comment">//获取进程的pid</span></span><br><span class="line"><span class="type">pid_t</span> <span class="title function_">getppid</span><span class="params">(<span class="type">void</span>)</span>; <span class="comment">// 获取进程父进程的pid</span></span><br></pre></td></tr></table></figure>
@@ -288,77 +198,4 @@
 
 <h3 id="4-用kill函数发送信号"><a href="#4-用kill函数发送信号" class="headerlink" title="4. 用kill函数发送信号"></a>4. 用kill函数发送信号</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/" rel="prev" title="教你如何给C盘扩容">
-                  <i class="fa fa-chevron-left"></i> 教你如何给C盘扩容
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" rel="next" title="9.虚拟内存">
-                  9.虚拟内存 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
-
-
-
-
-
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">napleon-liu</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-    </div>
-  </footer>
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.napleon.cn">napleon-liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">https://www.napleon.cn/2023/03/29/8-%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.napleon.cn" target="_blank">Napleon</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CSAPP/">CSAPP</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" title="9.虚拟内存"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">9.虚拟内存</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/" title="教你如何给C盘扩容"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">教你如何给C盘扩容</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/08/10-%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/" title="10:系统级IO"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-08</div><div class="title">10:系统级IO</div></div></a></div><div><a href="/2023/04/09/7-%E9%93%BE%E6%8E%A5/" title="7:链接"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-09</div><div class="title">7:链接</div></div></a></div><div><a href="/2023/03/29/9-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" title="9.虚拟内存"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-29</div><div class="title">9.虚拟内存</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">napleon-liu</div><div class="author-info__description">Talk is cheap, give me the code.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#8-4%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">8.4进程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-1-%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8BID"><span class="toc-number">1.1.</span> <span class="toc-text">8.4.1 获取进程ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-2-%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BB%88%E6%AD%A2%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">8.4.2 创建和终止进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-3-%E5%9B%9E%E6%94%B6%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">8.4.3 回收子进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-4-6"><span class="toc-number">1.4.</span> <span class="toc-text">8.4.6</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-5-%E4%BF%A1%E5%8F%B7"><span class="toc-number">2.</span> <span class="toc-text">8.5 信号</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-5-1-%E4%BF%A1%E5%8F%B7%E7%9A%84%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.1.</span> <span class="toc-text">8.5.1 信号的术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-5-2-%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">2.2.</span> <span class="toc-text">8.5.2 发送信号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BF%9B%E7%A8%8B%E7%BB%84"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. 进程组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8-x2F-bin-x2F-kill%E7%A8%8B%E5%BA%8F%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. 用&#x2F;bin&#x2F;kill程序发送信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BB%8E%E9%94%AE%E7%9B%98%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">2.2.3.</span> <span class="toc-text">3.从键盘发送信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%94%A8kill%E5%87%BD%E6%95%B0%E5%8F%91%E9%80%81%E4%BF%A1%E5%8F%B7"><span class="toc-number">2.2.4.</span> <span class="toc-text">4. 用kill函数发送信号</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/10/iris-day2/" title="iris-day2">iris-day2</a><time datetime="2023-04-10T12:53:21.000Z" title="发表于 2023-04-10 20:53:21">2023-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/09/%E6%B5%85%E8%B0%88mmap/" title="浅谈mmap">浅谈mmap</a><time datetime="2023-04-09T13:13:58.000Z" title="发表于 2023-04-09 21:13:58">2023-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/09/7-%E9%93%BE%E6%8E%A5/" title="7:链接">7:链接</a><time datetime="2023-04-09T08:24:36.000Z" title="发表于 2023-04-09 16:24:36">2023-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/08/10-%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/" title="10:系统级IO">10:系统级IO</a><time datetime="2023-04-08T04:20:32.000Z" title="发表于 2023-04-08 12:20:32">2023-04-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/08/iris-day1/" title="iris:day1">iris:day1</a><time datetime="2023-04-08T02:45:15.000Z" title="发表于 2023-04-08 10:45:15">2023-04-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By napleon-liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
