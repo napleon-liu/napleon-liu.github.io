@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux下进程间通信 | Napleon</title><meta name="author" content="napleon-liu"><meta name="copyright" content="napleon-liu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="进程的地址空间是相互独立的，因此进程之间交互数据必须需要专门的通信机制。 概述Linux下的主要IPC手段：  管道pipe。数据只能单方面流通， 只能在父子进程间进行。 有名管道named pipe。半双工通信方式，可用于非父子进程通信。 信号量semophore 进程间或不同进程间的同步手段。 消息队列message queue。消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下进程间通信">
+<meta property="og:url" content="https://www.napleon.cn/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="Napleon">
+<meta property="og:description" content="进程的地址空间是相互独立的，因此进程之间交互数据必须需要专门的通信机制。 概述Linux下的主要IPC手段：  管道pipe。数据只能单方面流通， 只能在父子进程间进行。 有名管道named pipe。半双工通信方式，可用于非父子进程通信。 信号量semophore 进程间或不同进程间的同步手段。 消息队列message queue。消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.napleon.cn/img/avatar.jpg">
+<meta property="article:published_time" content="2023-05-10T03:42:53.000Z">
+<meta property="article:modified_time" content="2023-05-11T11:35:03.242Z">
+<meta property="article:author" content="napleon-liu">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.napleon.cn/img/avatar.jpg"><link rel="shortcut icon" href="/img/%E5%A5%B6%E7%89%9B.svg"><link rel="canonical" href="https://www.napleon.cn/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux下进程间通信',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-11 19:35:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Napleon"><img class="site-icon" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.vpHnvEwhS1EfSJiTf45yHQHaHa?pid=ImgDet&amp;w=900&amp;h=900&amp;rs=1"/><span class="site-name">Napleon</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux下进程间通信</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-10T03:42:53.000Z" title="发表于 2023-05-10 11:42:53">2023-05-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-11T11:35:03.242Z" title="更新于 2023-05-11 19:35:03">2023-05-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux下进程间通信"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>进程的地址空间是相互独立的，因此进程之间交互数据必须需要专门的通信机制。</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>Linux下的主要IPC手段：</p>
+<ul>
+<li>管道pipe。数据只能单方面流通， 只能在父子进程间进行。</li>
+<li>有名管道named pipe。半双工通信方式，可用于非父子进程通信。</li>
+<li>信号量semophore 进程间或不同进程间的同步手段。</li>
+<li>消息队列message queue。消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息量少，管道只能承载无格式字节流以及缓冲区大小受限的缺点。</li>
+<li>信号signal</li>
+<li>共享内存shared memory。 映射一段能被其他进程访问的内存。共享内存能被一个进程创建但是被多个进程访问。</li>
+<li>套接字socket。 可用于不同机器间的通信。</li>
+</ul>
+<h1 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h1><p>管道是一个特殊的文件，这个文件只存在与内存中。创建管道时，系统为管道分配一个页面作为数据缓冲区，进行管道通信的两个进程通过读写这个缓冲区来实现通信。</p>
+<h2 id="dup与dup2"><a href="#dup与dup2" class="headerlink" title="dup与dup2"></a>dup与dup2</h2><p>在子进程调用exec函数执行另外一个程序时，可以将子进程的文件描述符重定向到标准输入，新执行的程序能够从标准输入获取数据，实际上是从父进程获取输入数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="comment">// 返回文件描述符，为当前可用文件描述符的最小数值。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">dup</span><span class="params">(<span class="type">int</span> oldfd)</span>;</span><br><span class="line"><span class="comment">// 利用参数newfd指定欲返回的文件描述符。如果newfd指定的文件描述符已经打开，先将其关闭，然后将oldfd指定的文件描述符赋值给该参数。</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">dup2</span><span class="params">(<span class="type">int</span> oldfd, <span class="type">int</span> newfd)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h1><p>有名管道(named pipe或FIFO)。FIFO不同与管道之处在于它提供了一个路径名与之关联，以FIFO的形式存储与文件系统中。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><p>可以用shell创建或者在程序中用系统函数创建。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">path: 有名管道的路径名</span></span><br><span class="line"><span class="comment">mod: 模式</span></span><br><span class="line"><span class="comment">dev: 设备值</span></span><br><span class="line"><span class="comment">return: 成功返回0， 失败返回-1</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">mknod</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">mode_t</span> mod, <span class="type">dev_t</span> dev)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">mkfifo</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">mode_t</span> mode)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="读写方式"><a href="#读写方式" class="headerlink" title="读写方式"></a>读写方式</h2><p>有名管道是一个硬盘上的文件，使用前需要先open()将其打开。</p>
+<p><strong>有名管道是存在与硬盘上的文件，而管道是存在与内存中的特殊文件</strong></p>
+<h1 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>消息队列是存放在内核中的一个消息链表，每个消息队列用消息队列标识符标识。与管道不同的是消息队列存放在内核中，只有在内核重启或者显式的删除一个消息队列时，该消息队列才会被真正的删除。</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="消息缓冲结构"><a href="#消息缓冲结构" class="headerlink" title="消息缓冲结构"></a>消息缓冲结构</h3><p>向消息队列发送消息时，必须组成合理的数据 结构。Linux系统定义了一个模板数据结构msgbuf：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/msg.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msgbuf</span> &#123;</span></span><br><span class="line">    <span class="comment">// 消息类型</span></span><br><span class="line">    <span class="type">long</span> mtype;</span><br><span class="line">    <span class="comment">// 消息内容</span></span><br><span class="line">    <span class="type">char</span> mtext[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="msqid-ds内核数据结构"><a href="#msqid-ds内核数据结构" class="headerlink" title="msqid_ds内核数据结构"></a>msqid_ds内核数据结构</h3><p>Linux中，每个消息队列都维护着一个结构体msqid_ds。该结构体保存着当前消息队列的状态信息。该结构体定义在linux&#x2F;msg.h中，具体定义如下：</p>
+<h3 id="ipc-perm内核数据结构"><a href="#ipc-perm内核数据结构" class="headerlink" title="ipc_perm内核数据结构"></a>ipc_perm内核数据结构</h3><p>ipc_perm保存着消息队列的一些重要信息，比如消息队列关联的键值，消息队列的用户ID、组ID。</p>
+<h2 id="创建与读写"><a href="#创建与读写" class="headerlink" title="创建与读写"></a>创建与读写</h2><h3 id="创建消息队列"><a href="#创建消息队列" class="headerlink" title="创建消息队列"></a>创建消息队列</h3><p>消息队列是随着内核的存在而存在的，每个消息队列在系统范围内对应唯一的键值。通过ftok函数获取该键值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="type">ket_t</span> <span class="title function_">ftok</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *pathname, <span class="type">int</span> proj_id)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="读写消息队列"><a href="#读写消息队列" class="headerlink" title="读写消息队列"></a>读写消息队列</h2><p>函数原型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">msgsnd</span><span class="params">(<span class="type">int</span> msqid, <span class="keyword">struct</span> msgbuf *msgp, <span class="type">size_t</span> msgsz, <span class="type">int</span> mapflg)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">msgrcv</span><span class="params">(<span class="type">int</span> msqid, <span class="keyword">struct</span> msgbuf *msgp, <span class="type">size_t</span> msgsz, <span class="type">long</span> <span class="type">int</span> msgtyp, itn msgflg)</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h1><p>信号量大于等于0时表示可供并发进程使用的资源实体数；小于0时代表正在等待使用临界资源的进程数目。</p>
+<h2 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a>数据结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">semid_ds</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span>	<span class="title">sem_perm</span>;</span>	<span class="comment">// 对信号进行操作的许可权</span></span><br><span class="line">    <span class="type">__kernel_time_t</span>	sem_otime;	<span class="comment">// 对信号进行操作的最后时间</span></span><br><span class="line">    <span class="type">__kernel_time_t</span>	em_ctime;	<span class="comment">// 对信号进行修改的最后时间</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sem</span>	*<span class="title">sembase</span>;</span>	<span class="comment">// 指向第一个信号</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sem_queue</span>	<span class="title">sem_pending</span>;</span>	<span class="comment">// 等待处理的挂起操作</span></span><br><span class="line"> 	<span class="class"><span class="keyword">struct</span> <span class="title">sem_undo</span> *<span class="title">undo</span>;</span>	<span class="comment">// 撤销的请求</span></span><br><span class="line">    ushort	sem_nsems;	<span class="comment">// 数组中的信号数目</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h1><h2 id="数据结构-2"><a href="#数据结构-2" class="headerlink" title="数据结构"></a>数据结构</h2><p>共享内存是分配一块能被其他进程访问的内存。每个内存块在内核中维护这一个内部结构shmid_ds(和消息队列，信号量)一样，该结构定义在头文件linux&#x2F;shm.h中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">shmid_ds</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ipc_perm</span>	<span class="title">shm_perm</span>;</span></span><br><span class="line">    <span class="type">int</span>				shm_segsz;</span><br><span class="line">    ******</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="共享内存区的创建"><a href="#共享内存区的创建" class="headerlink" title="共享内存区的创建"></a>共享内存区的创建</h2><p>shmget来创建一个共享内存区。原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">key: ftok得到的键值</span></span><br><span class="line"><span class="comment">size: 以字节为单位指定内存的大小</span></span><br><span class="line"><span class="comment">shmflg: 操作标志位</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">shmget</span><span class="params">(<span class="type">key_t</span> key, <span class="type">size_t</span> size, <span class="type">int</span> shmflg)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="共享内存区的操作"><a href="#共享内存区的操作" class="headerlink" title="共享内存区的操作"></a>共享内存区的操作</h2><p>在使用共享内存区之前，必须通过shmat将其附加到进程的地址空间。进程就与共享内存建立了连接。shmat调用成功后会返回一个指向共享内存区的指针，使用该指针即可访问共享内存区，如果失败返回-1.代码原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">shimid: shmget的返回值</span></span><br><span class="line"><span class="comment">shmaddr: 共享内存的附加点，一般设为空，由MMU自动管理</span></span><br><span class="line"><span class="comment">shmflg: 存取权限标志</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span>* <span class="title function_">shmat</span><span class="params">(<span class="type">int</span> shmid, <span class="type">const</span> <span class="type">void</span> *shmaddr, <span class="type">int</span> shmflg)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当进程结束使用共享内存区，要通过函数shmdt断开与共享内存区的连接。该函数声明在sys&#x2F;shm.h中代码原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">shmdt</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *shmaddr)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Linux对共享内存区的控制是通过调用函数shmctl来完成的，该函数定义在头文件sys&#x2F;shm.h中，原型代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">shimid: 共享内存区的标识符</span></span><br><span class="line"><span class="comment">buf:指向shmid_ds结构体的指针</span></span><br><span class="line"><span class="comment">cmd：操作标志位</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">shmctl</span><span class="params">(<span class="type">int</span> shmid, <span class="type">int</span> cmd, <span class="keyword">struct</span> shimid_ds *buf)</span>;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.napleon.cn">napleon-liu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.napleon.cn/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">https://www.napleon.cn/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.napleon.cn" target="_blank">Napleon</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/07/beego%E6%A1%86%E6%9E%B6/" title="beego框架"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">beego框架</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">napleon-liu</div><div class="author-info__description">Talk is cheap, give me the code.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-number">2.</span> <span class="toc-text">管道</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#dup%E4%B8%8Edup2"><span class="toc-number">2.1.</span> <span class="toc-text">dup与dup2</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%90%8D%E7%AE%A1%E9%81%93"><span class="toc-number">3.</span> <span class="toc-text">有名管道</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">3.1.</span> <span class="toc-text">基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.1.</span> <span class="toc-text">创建方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">读写方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">4.</span> <span class="toc-text">消息队列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">4.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E7%BC%93%E5%86%B2%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.1.</span> <span class="toc-text">消息缓冲结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#msqid-ds%E5%86%85%E6%A0%B8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.2.</span> <span class="toc-text">msqid_ds内核数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipc-perm%E5%86%85%E6%A0%B8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.3.</span> <span class="toc-text">ipc_perm内核数据结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%8E%E8%AF%BB%E5%86%99"><span class="toc-number">4.3.</span> <span class="toc-text">创建与读写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">4.3.1.</span> <span class="toc-text">创建消息队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">4.4.</span> <span class="toc-text">读写消息队列</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-number">5.</span> <span class="toc-text">信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1"><span class="toc-number">5.1.</span> <span class="toc-text">数据结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98"><span class="toc-number">6.</span> <span class="toc-text">共享内存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-2"><span class="toc-number">6.1.</span> <span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E5%8C%BA%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">6.2.</span> <span class="toc-text">共享内存区的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E5%8C%BA%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">6.3.</span> <span class="toc-text">共享内存区的操作</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="Linux下进程间通信">Linux下进程间通信</a><time datetime="2023-05-10T03:42:53.000Z" title="发表于 2023-05-10 11:42:53">2023-05-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/07/beego%E6%A1%86%E6%9E%B6/" title="beego框架">beego框架</a><time datetime="2023-05-07T08:39:26.000Z" title="发表于 2023-05-07 16:39:26">2023-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/06/%E5%BE%AE%E5%86%85%E6%A0%B8%E4%B8%8E%E5%AE%8F%E5%86%85%E6%A0%B8/" title="微内核与宏内核">微内核与宏内核</a><time datetime="2023-05-06T08:10:19.000Z" title="发表于 2023-05-06 16:10:19">2023-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/03/%E6%B5%85%E8%B0%88wsl/" title="浅谈wsl">浅谈wsl</a><time datetime="2023-05-03T13:41:39.000Z" title="发表于 2023-05-03 21:41:39">2023-05-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/04/24/GORM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="GORM学习笔记">GORM学习笔记</a><time datetime="2023-04-24T13:58:17.000Z" title="发表于 2023-04-24 21:58:17">2023-04-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By napleon-liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
