@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>go-测试</title>
+      <link href="/2023/05/16/go-%E6%B5%8B%E8%AF%95/"/>
+      <url>/2023/05/16/go-%E6%B5%8B%E8%AF%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="编写测试"><a href="#编写测试" class="headerlink" title="编写测试"></a>编写测试</h1><p>编写测试和函数很类似， 其中有一些规则：</p><ul><li>程序需要在一个名为xxx_test.go 的文件中编写</li><li>测试函数的命名必须以单词Test开始</li><li>测试函数只接受一个参数t *testing.T</li></ul><h1 id="测试hello-go"><a href="#测试hello-go" class="headerlink" title="测试hello.go"></a>测试hello.go</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Hello</span><span class="params">()</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello, world&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(Hello())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>测试函数</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestHello</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">    got := Hello()</span><br><span class="line">    want := <span class="string">&quot;Hello, world&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;got &#x27;%q&#x27; want &#x27;%q&#x27;&quot;</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在解释这个测试之前，让我们先在终端运行 <code>go test</code>，它应该通过测试了！为了再次验证，可以尝试改变 <code>want</code> 字符串来破坏测试的结果。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Linux下进程间通信</title>
       <link href="/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
       <url>/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
