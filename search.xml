@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>http包</title>
+      <link href="/2023/05/20/http%E5%8C%85/"/>
+      <url>/2023/05/20/http%E5%8C%85/</url>
+      
+        <content type="html"><![CDATA[<p>Go 语言中的 http 包提供了创建 http 服务或者访问 http 服务所需要的能力，不需要额外的依赖。在这篇文章中，我们会介绍这些功能的使用，以及看一下 http 包的设计思路。</p><span id="more"></span><h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>发送GET,HEAD,POST,POSTFORM请求：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resp, err := http.Get(<span class="string">&quot;http://example.com/&quot;</span>)</span><br><span class="line">...</span><br><span class="line">resp, err := http.Post(<span class="string">&quot;http://example.com/upload&quot;</span>, <span class="string">&quot;image/jpeg&quot;</span>, &amp;buf)</span><br><span class="line">...</span><br><span class="line">resp, err := http.PostForm(<span class="string">&quot;http://example.com/form&quot;</span>, url.Values&#123;<span class="string">&quot;key&quot;</span>:&#123;<span class="string">&quot;Value&quot;</span>&#125;, <span class="string">&quot;id&quot;</span>:&#123;<span class="string">&quot;123&quot;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure><p>客户端必须在结束时关闭响应体。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">resp, err := http.Get(<span class="string">&quot;http://example.com/&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="comment">// handle err</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line">body, err := io.ReadAll(resp.Body)</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure><p>可以配置客户端：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client := &amp;http.Client&#123;</span><br><span class="line">    CheckRedirect: redirectPolicyFunc,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">resp, err := client.Get(<span class="string">&quot;http://example.com&quot;</span>)</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">req, err := http.NewRequest(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;http://example.com&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">req.Header.Add(<span class="string">&quot;If-None-Match&quot;</span>, <span class="string">`W/&quot;wyzzy&quot;`</span>)</span><br><span class="line">resp, err := client.Do(req)</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure><p>为了控制代理，TLS配置，等配置，可以创建一个Transport:</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tr := &amp;http.Transport &#123;</span><br><span class="line">    MaxIdleConns:<span class="number">10</span>,</span><br><span class="line">    IdleConnTimeout:<span class="number">30</span> * time.Second,</span><br><span class="line">    DisableCompression:<span class="literal">true</span>,</span><br><span class="line">&#125;</span><br><span class="line">client := &amp;http.Client&#123;Transport: tr&#125;</span><br><span class="line">resp, err := client.Get(<span class="string">&quot;http://example.com&quot;</span>)</span><br></pre></td></tr></table></figure><p>ListenAndServe函数使用给定的地址和处理函数开启一个HTTP服务器。handler通常是nil，意味着使用DefaultServeMux。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http.Handle(<span class="string">&quot;/foo&quot;</span>, fooHandler)</span><br><span class="line"></span><br><span class="line">http.HandleFunc(<span class="string">&quot;/bar&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">    fmt.Fprintf(w, <span class="string">&quot;Hello, %q&quot;</span>, html.EscapeString(r.URL.Path))</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">log.Fatal(http.ListenAndServe(<span class="string">&quot;:8080&quot;</span>, <span class="literal">nil</span>))</span><br></pre></td></tr></table></figure><p>使用定制的服务器来控制服务器的行为</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s := &amp;http.Server &#123;</span><br><span class="line">    Addr:<span class="string">&quot;:8080&quot;</span>,</span><br><span class="line">    Handler:myHandler,</span><br><span class="line">    ReadTimeout:<span class="number">10</span> * time.Second,</span><br><span class="line">    WriteTimeout:<span class="number">10</span> * time.Second,</span><br><span class="line">    MaxHeaderBytes:<span class="number">1</span> &lt;&lt; <span class="number">20</span></span><br><span class="line">&#125;</span><br><span class="line">log.Fatal(s.ListenAndServe())</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+            <tag> Web </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>go-测试</title>
       <link href="/2023/05/16/go-%E6%B5%8B%E8%AF%95/"/>
       <url>/2023/05/16/go-%E6%B5%8B%E8%AF%95/</url>
@@ -34,38 +55,6 @@
         <tags>
             
             <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>beego框架</title>
-      <link href="/2023/05/07/beego%E6%A1%86%E6%9E%B6/"/>
-      <url>/2023/05/07/beego%E6%A1%86%E6%9E%B6/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>微内核与宏内核</title>
-      <link href="/2023/05/06/%E5%BE%AE%E5%86%85%E6%A0%B8%E4%B8%8E%E5%AE%8F%E5%86%85%E6%A0%B8/"/>
-      <url>/2023/05/06/%E5%BE%AE%E5%86%85%E6%A0%B8%E4%B8%8E%E5%AE%8F%E5%86%85%E6%A0%B8/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> os </tag>
             
         </tags>
       
@@ -155,25 +144,6 @@
         <tags>
             
             <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>NumPy学习笔记</title>
-      <link href="/2023/04/15/NumPy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-      <url>/2023/04/15/NumPy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Ndarray对象"><a href="#Ndarray对象" class="headerlink" title="Ndarray对象"></a>Ndarray对象</h1>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> python </tag>
             
         </tags>
       
@@ -459,31 +429,6 @@
         <tags>
             
             <tag> CSAPP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>C盘扩容教程</title>
-      <link href="/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/"/>
-      <url>/2022/06/30/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%BB%99C%E7%9B%98%E6%89%A9%E5%AE%B9/</url>
-      
-        <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一名深度强迫症患者，我不能容忍电脑中出现任何不合我意的地方。尤其是磁盘爆红。<br>电脑买了一年多了，当时到手时没在意，自带的磁盘被分成了两个区，系统盘C盘只分了100个G的空间，然而系统自身就占去了近一半的空间。一年下来，尽管我尽量将数据存在别的磁盘里，C盘还是渐渐地被各种软件蚕食殆尽。等到我准备采取措施时，C盘的容量已经小于5%了。<br>本文是我查阅了多个教程，并根据自己的踩雷经验整合而成，水平有限，不能保证文章中涵盖了扩容过程可能出现的所有错误。一定要谨慎，数据一旦丢失就不可恢复了。<br>Tips:操作过程中务必将电脑接上电源，以免电脑中途关机，造成不可挽回的损失。</p><span id="more"></span><h1 id="磁盘的分区"><a href="#磁盘的分区" class="headerlink" title="磁盘的分区"></a>磁盘的分区</h1><p>右击‘此电脑’，可以看到‘管理’，点开‘管理’。<br><img src="/../images/expand_c/management.png" alt="管理我的电脑" title="管理"><br>进入管理界面后，点击左侧的“磁盘管理”，即可进入电脑的磁盘页面。可以看到，我的电脑有两个磁盘，其中磁盘0未分区，磁盘1分为C、D两个分区。<br><img src="/../images/expand_c/management2.png" alt="磁盘管理器" title="磁盘管理器"><br>首先要压缩D盘，如果你有多个磁盘也可以压缩别的磁盘，但不建议这样做。因为磁盘的读取方式不一致可能会造成错误。<br>右击分区D，选择压缩分区，并输入你要压缩的空间大小。<br><img src="/../images/expand_c/zip.png" alt="压缩分区" title="压缩分区"><br>压缩后，你可以看到现在有了未分配的空间。<br>检查一下，可以发现，当前未分配的空间可以给D盘扩容，但却不能给C盘扩容。这是因为逻辑分区之间具有顺序关系。可以理解成当前未分配的空间只能给它前面的分区扩容，而不能给它不相邻的分区扩容。<br><img src="/../images/expand_c/afterzip.png" alt="未分配的空间" title="未分配的空间"><br><img src="/../images/expand_c/expand_d.png" alt="D盘的扩容" title="D盘的扩容"><br><img src="/../images/expand_c/cant_expand_c.png" alt="C盘的扩容" title="C盘的扩容"><br>只使用系统的磁盘管理器是不能直接给C盘扩容的，除非先把数据拷贝好，然后将D盘格式化，再重新将1磁盘分区。这样过于麻烦，下面介绍一下利用软件给C盘扩容的方法。</p><h1 id="使用DiskGenius实现无损扩容"><a href="#使用DiskGenius实现无损扩容" class="headerlink" title="使用DiskGenius实现无损扩容"></a>使用DiskGenius实现无损扩容</h1><p>DiskGenius是一款免费的国产磁盘管理软件，它能够直接用未分区的逻辑分区给主分区扩容。前往DiskGenius的官网可直接下载。<br>进入软件，选中C盘，点击上方的分区选项卡选择扩容分区。<br><img src="/../images/expand_c/DiskGenius.png" alt="扩容分区" title="扩容分区"><br>但现在还别着急，磁盘中可能有的簇未使用，却被标记成了已使用。为了解决这一问题，需要按<code>Windows+x</code>，选择‘Windows PowerShell’，进入管理员界面。<br>在命令行中键入<code>chkdsk /f /x c:</code>,其中’c’代表盘符，建议对所有盘都扫描一遍，保证不出问题。<br>回到刚才的步骤，现在选择未分配的空间，然后按照提示进行操作。<br><img src="/../images/expand_c/expand.png" alt="扩容"><br>然后选中‘重启’,等待软件进行操作，重启两次后，你的C盘就扩容成功了！</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>网上的教程鱼龙混杂，大多是互相复制粘贴，好多操作都已经过时了，为了扩容C盘我花费了一下午，到处参考教程，不断的试错，最终写成了这篇博客，如果你觉得有用的话，可以分享给你的朋友哦。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 搞机 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> computer </tag>
             
         </tags>
       
