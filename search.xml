@@ -4,6 +4,46 @@
   
     
     <entry>
+      <title>智能合约</title>
+      <link href="/2023/07/27/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"/>
+      <url>/2023/07/27/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="智能合约模型"><a href="#智能合约模型" class="headerlink" title="智能合约模型"></a>智能合约模型</h1><p>本质上是一个运行在区块链上的分布式应用。</p><h2 id="区块链：分布式账本"><a href="#区块链：分布式账本" class="headerlink" title="区块链：分布式账本"></a>区块链：分布式账本</h2><p>区块(Block)</p><p>Previous Hash, Data, Hash</p><p>账户(Account)</p><p>Address, Balance</p><p><img src="/2023/07/27/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%A8%A1%E5%9E%8B.png" alt="区块链模型"></p><h2 id="以太坊账户模型"><a href="#以太坊账户模型" class="headerlink" title="以太坊账户模型"></a>以太坊账户模型</h2><p><strong>EOA</strong></p><p>拥有非对称密钥对的用户实体。</p><p><strong>COA</strong></p><p>合约字节码（Code Hash）</p><p>持久化存储（Storage Root）</p><p><img src="/2023/07/27/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E8%B4%A6%E6%88%B7%E6%A8%A1%E5%9E%8B.png" alt="以太坊账户模型"></p><h2 id="交易的基本格式"><a href="#交易的基本格式" class="headerlink" title="交易的基本格式"></a>交易的基本格式</h2><p><strong>Hash</strong></p><p>交易标识</p><p><strong>From</strong></p><p>发送交易的账户，需要用私钥为这笔交易签名</p><p><strong>to</strong></p><p>目的账户</p><p><strong>Value</strong></p><p>以太币数量</p><p><strong>Calldata</strong></p><p>字节流格式的输入</p><p><strong>Gas</strong></p><p>支付给矿工的手续费</p><p><strong>GasPrice</strong></p><p>Gas的单位价格，以Ether标识</p><p><strong>Logs</strong></p><p>被触发的事件</p><h1 id="执行-amp-调试智能合约"><a href="#执行-amp-调试智能合约" class="headerlink" title="执行&amp;调试智能合约"></a>执行&amp;调试智能合约</h1>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Blockchain </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis事务</title>
+      <link href="/2023/07/27/Redis%E4%BA%8B%E5%8A%A1/"/>
+      <url>/2023/07/27/Redis%E4%BA%8B%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<p>Redis中的事务（transaction）是一组命令的集合。事务同命令一 样都是 Redis 的最小执行单位，一个事务中的命令要么都执行，要么 都不执行。</p><span id="more"></span>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> SQL </tag>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>go-内存管理</title>
       <link href="/2023/07/26/go-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
       <url>/2023/07/26/go-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</url>
