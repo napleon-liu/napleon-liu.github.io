@@ -4,6 +4,40 @@
   
     
     <entry>
+      <title>Linux打包和压缩</title>
+      <link href="/2023/07/29/Linux%E6%89%93%E5%8C%85%E5%92%8C%E5%8E%8B%E7%BC%A9/"/>
+      <url>/2023/07/29/Linux%E6%89%93%E5%8C%85%E5%92%8C%E5%8E%8B%E7%BC%A9/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux文件系统</title>
+      <link href="/2023/07/29/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
+      <url>/2023/07/29/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</url>
+      
+        <content type="html"><![CDATA[<span id="more"></span><h1 id="Linux文件目录结构"><a href="#Linux文件目录结构" class="headerlink" title="Linux文件目录结构"></a>Linux文件目录结构</h1><p><img src="/2023/07/29/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/d0c50-linux2bfile2bsystem2bhierarchy.jpg" alt="img"></p><ul><li><strong>&#x2F;bin</strong></li></ul><p>bin是Binaries的缩写，这个目录存放着最经常使用的命令。</p><ul><li><strong>&#x2F;boot</strong></li></ul><p>这里存放的是启动 Linux 时使用的一些核心文件，包括一些连接文件以及镜像文件。</p><ul><li><strong>&#x2F;dev</strong></li></ul><p>dev 是 Device(设备) 的缩写, 该目录下存放的是 Linux 的外部设备，在 Linux 中访问设备的方式和访问文件的方式是相同的。</p><ul><li><strong>&#x2F;etc</strong></li></ul><p>etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p><ul><li><strong>&#x2F;home</strong></li></ul><p>用户的主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的，如上图中的 alice、bob 和 eve。</p><ul><li><strong>&#x2F;lib</strong></li></ul><p>lib 是 Library(库) 的缩写这个目录里存放着系统最基本的动态连接共享库，其作用类似于 Windows 里的 DLL 文件。几乎所有的应用程序都需要用到这些共享库。</p><ul><li><strong>&#x2F;lost+found</strong></li></ul><p>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</p><ul><li><strong>&#x2F;media</strong></li></ul><p>linux 系统会自动识别一些设备，例如U盘、光驱等等，当识别后，Linux 会把识别的设备挂载到这个目录下。</p><ul><li><strong>&#x2F;mnt</strong></li></ul><p>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在 &#x2F;mnt&#x2F; 上，然后进入该目录就可以查看光驱里的内容了。</p><ul><li><strong>&#x2F;opt</strong></li></ul><p>opt 是 optional(可选) 的缩写，这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</p><ul><li><strong>&#x2F;proc</strong></li></ul><p>proc 是 Processes(进程) 的缩写，&#x2F;proc 是一种伪文件系统（也即虚拟文件系统），存储的是当前内核运行状态的一系列特殊文件，这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件。</p><ul><li><strong>&#x2F;root</strong></li></ul><p>该目录为系统管理员，也称作超级权限者的用户主目录。</p><ul><li><strong>&#x2F;sbin</strong></li></ul><p>s 就是 Super User 的意思，是 Superuser Binaries (超级用户的二进制文件) 的缩写，这里存放的是系统管理员使用的系统管理程序。</p><ul><li><strong>&#x2F;var</strong></li></ul><p>var 是 variable(变量) 的缩写，这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p><ul><li><strong>&#x2F;usr</strong></li></ul><p> usr 是 unix shared resources(共享资源) 的缩写，这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于 windows 下的 program files 目录。</p><ul><li><strong>&#x2F;srv</strong></li></ul><p>该目录存放一些服务启动之后需要提取的数据。</p><ul><li><strong>&#x2F;temp</strong></li></ul><p>tmp 是 temporary(临时) 的缩写这个目录是用来存放一些临时文件的。</p><h1 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h1><p><strong>在 Linux 看来，任何硬件设备也都是文件，它们各有自己的一套文件系统（文件目录结构）。因此产生的问题是，当在 Linux 系统中使用这些硬件设备时，只有将Linux本身的文件目录与硬件设备的文件目录合二为一，硬件设备才能为我们所用。合二为一的过程称为“挂载”。</strong></p><p>挂载，指的就是将设备文件中的顶级目录连接到 Linux 根目录下的某一目录（最好是空目录），访问此目录就等同于访问设备文件。</p><p>举个例子，我们想通过命令行访问某个 U 盘中的数据，图 1 所示为 U 盘文件目录结构和 Linux 系统中的文件目录结构。</p><p><img src="/2-1Z321130921V9-1690619380227-6.gif" alt="U 盘和 Linux 系统文件目录结构"></p><p>图 1 中可以看到，目前 U 盘和 Linux 系统文件分属两个文件系统，还无法使用命令行找到 U 盘文件，需要将两个文件系统进行挂载。</p><p>接下来，我们在根目录下新建一个目录 &#x2F;sdb-u，通过挂载命令将 U 盘文件系统挂载到此目录，挂载效果如图 2 所示。</p><p><img src="/2023/07/29/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/2-1Z321130I44B.gif" alt="文件系统挂载"></p><p>可以看到，U 盘文件系统已经成为 Linux 文件系统目录的一部分，此时访问 &#x2F;sdb-u&#x2F; 就等同于访问 U 盘。</p><p>前面讲过，根目录下的 &#x2F;dev&#x2F; 目录文件负责所有的硬件设备文件，事实上，当 U 盘插入 Linux 后，系统也确实会给 U 盘分配一个目录文件（比如 sdb1），就位于 &#x2F;dev&#x2F; 目录下（&#x2F;dev&#x2F;sdb1），但无法通过 &#x2F;dev&#x2F;sdb1&#x2F; 直接访问 U 盘数据，访问此目录只会提供给你此设备的一些基本信息（比如容量）。</p><h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><p>umount 命令用于卸载已经挂载的硬件设备，该命令的基本格式如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# umount 设备文件名或挂载点</span><br></pre></td></tr></table></figure><p>注意，卸载命令后面既可以加设备文件名，也可以加挂载点，不过只能二选一，比如：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# umount /mnt/usb</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">卸载U盘</span></span><br><span class="line">[root@localhost ~]# umount /mnt/cdrom</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">卸载光盘</span></span><br><span class="line">[root@localhost ~]# umount /dev/sr0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">命令加设备文件名同样是可以卸载的</span></span><br></pre></td></tr></table></figure><h1 id="修复文件系统"><a href="#修复文件系统" class="headerlink" title="修复文件系统"></a>修复文件系统</h1><p>fsck 命令用于检查文件系统并尝试修复出现的错误。该命令的基本格式如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# fsck [选项] 分区设备文件名</span><br></pre></td></tr></table></figure><table><thead><tr><th>选项</th><th>功能</th></tr></thead><tbody><tr><td>-a</td><td>自动修复文件系统，没有任何提示信息。</td></tr><tr><td>-r</td><td>采取互动的修复模式，在修改文件前会进行询问，让用户得以确认并决定处理方式。</td></tr><tr><td>-A（大写）</td><td>按照 &#x2F;etc&#x2F;fstab 配置文件的内容，检查文件内罗列的全部文件系统。</td></tr><tr><td>-t 文件系统类型</td><td>指定要检查的文件系统类型。</td></tr><tr><td>-C（大写）</td><td>显示检查分区的进度条。</td></tr><tr><td>-f</td><td>强制检测，一般 fsck 命令如果没有发现分区有问题，则是不会检测的。如果强制检测，那么不管是否发现问题，都会检测。</td></tr><tr><td>-y</td><td>自动修复，和 -a 作用一致，不过有些文件系统只支持 -y。</td></tr></tbody></table><p>需要注意的是，在使用 fsck 命令修改某文件系统时，这个文件系统对应的磁盘分区一定要处于卸载状态，磁盘分区在挂载状态下进行修复是非常不安全的，数据可能会遭到破坏，也有可能会损坏磁盘。</p><p>这里，给大家举个例子，如果想要修复某个分区，则只需执行如下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#fsck -r /dev/sdb1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">采用互动的修复模式</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> os </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>BTC中的密码学原理与数据结构</title>
       <link href="/2023/07/28/BTC%E4%B8%AD%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%9F%E7%90%86/"/>
       <url>/2023/07/28/BTC%E4%B8%AD%E7%9A%84%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%9F%E7%90%86/</url>
