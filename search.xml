@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>事务</title>
+      <link href="/2023/11/29/%E4%BA%8B%E5%8A%A1/"/>
+      <url>/2023/11/29/%E4%BA%8B%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h1><h2 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h2><p>一个事务中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节，而且事务在执行过程中发生错误，会被回滚到事务开始前的状态，就像这个事务从来没有执行过一样。</p><h2 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性 Consistency"></a>一致性 Consistency</h2><p>是指事务操作前和操作后，数据满足完整性约束，数据库保持一致性状态。</p><h2 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性 Isolation"></a>隔离性 Isolation</h2><p>数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致，因为多个事务同时使用相同的数据时，不会相互干扰，每个事务都有一个完整的数据空间，对其他并发事务是隔离的。</p><h2 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性 Durability"></a>持久性 Durability</h2><p>事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</p><h1 id="并发事务的问题"><a href="#并发事务的问题" class="headerlink" title="并发事务的问题"></a>并发事务的问题</h1><h2 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h2><p>如果一个事务读到了另一个未提交事务修改过的数据，就意味着发生了脏读。</p><p><img src="/image-20231029155726297.png" alt="image-20231029155726297"></p><p>因为事务A还没提交事务，所以随时可能发生rollback，这样B读到的数据就是过期的数据，这种现象被称为脏读。</p><h2 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h2><p>在一个事务中多次读取同一个数据，如果前后两次得到的结果不一样，就意味着发生了不可重复读现象。</p><p><img src="/image-20231029160004590.png" alt="image-20231029160004590"></p><p>A事务的持续时间比B长，B提交事务后A又读到了数据，前后结果不一致。</p><h2 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h2><p>在一个事务内多次查询某个符合条件的记录数量，如果出现前后两次查询到的记录数量不一致的情况，就意味着发生了幻读现象。</p><p><img src="/image-20231029160310737.png" alt="image-20231029160310737"></p><h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><ul><li>读未提交 read uncommitted 一个事务未提交时，它做的变更就能被其他事务看到；</li><li>读提交 read committed 一个事务提交之后，他做的变更才能被其他事务看到；</li><li>可重复读 repeatable 一个事务执行过程中看到的数据，一直跟这个事务启动时看到的数据是一致的；</li><li>串行化 serializable 会对记录加上读写锁，在多个事务对这条记录进行读写操作时，如果发生了读写冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</li></ul><p>针对不同的隔离级别，并发事务时可能发生的现象也会不同。</p><p><img src="/image-20231029160756260.png" alt="image-20231029160756260"></p><h1 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h1><h2 id="Transaction-State"><a href="#Transaction-State" class="headerlink" title="Transaction State"></a>Transaction State</h2><ul><li>Active 初始状态；事务执行的时候处于这个状态</li><li>Partially committed 最终状态执行后</li><li>Failed 发生异常之后</li><li>Aborted 回滚，数据库将该状态存储在事务的开始。抛出异常后可以选择重启事务或者停止事务</li><li>Committed  成功结束后</li><li>Terminated 要么提交要么抛出异常</li></ul><p><img src="/image-20231121112001543.png" alt="image-20231121112001543"></p><p><img src="/image-20231121112017030.png" alt="image-20231121112017030"></p><h2 id="两阶段锁协议"><a href="#两阶段锁协议" class="headerlink" title="两阶段锁协议"></a>两阶段锁协议</h2><p><img src="/image-20231121113611323.png" alt="image-20231121113611323"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>日志</title>
       <link href="/2023/11/29/%E6%97%A5%E5%BF%97/"/>
       <url>/2023/11/29/%E6%97%A5%E5%BF%97/</url>
@@ -23,7 +42,7 @@
     
     
     <entry>
-      <title>lab3</title>
+      <title>6.s081lab3</title>
       <link href="/2023/11/21/6.s081lab3/"/>
       <url>/2023/11/21/6.s081lab3/</url>
       
