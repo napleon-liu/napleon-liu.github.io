@@ -54,7 +54,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2023-09-27 19:47:15'
+  postUpdate: '2023-11-29 13:46:19'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -158,155 +158,62 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/%E6%8A%AB%E5%A4%B4%E5%A3%AB.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Napleon"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Napleon</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/04/24/go-%E5%8D%8F%E7%A8%8B/" title="go-协程"><img class="post-bg" src="/../images/cover/go.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go-协程"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/04/24/go-%E5%8D%8F%E7%A8%8B/" title="go-协程">go-协程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-24T13:42:09.000Z" title="发表于 2023-04-24 21:42:09">2023-04-24</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-24T11:54:08.226Z" title="更新于 2023-06-24 19:54:08">2023-06-24</time></span></div><div class="content">协程是一种用户态的轻量级线程，又称微线程，协程的调度完全由用户控制。与传统的系统级线程和进程相比，协程的最大优势在于其”轻量级”，可以轻松创建上百万个而不会导致系统资源衰竭，而线程和进程通常最多也不能超过1万的。这也是协程也叫轻量级线程的原因。
-
-
-
-
-1.1 Goroutine创建Goroutine的成本很小，它就是一段代码，一个函数入口。以及在堆上为其分配的一个堆栈（初始大小为4K，会随着程序的执行自动增长删除）。因此它非常廉价，Go应用程序可以并发运行数千个Goroutines。
-
-与线程相比，Goroutines非常便宜。它们只是堆栈大小的几个kb，堆栈可以根据应用程序的需要增长和收缩，而在线程的情况下，堆栈大小必须指定并且是固定的
-Goroutines被多路复用到较少的OS线程。在一个程序中可能只有一个线程与数千个Goroutines。如果线程中的任何Goroutine都表示等待用户输入，则会创建另一个OS线程，剩下的Goroutines被转移到新的OS线程。所有这些都由运行时进行处理，我们作为程序员从这些复杂的细节中抽象出来，并得到了一个与并发工作相关的干净的API。
-当使 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/04/20/go-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" title="go-垃圾回收"><img class="post-bg" src="/../images/cover/go.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go-垃圾回收"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/04/20/go-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" title="go-垃圾回收">go-垃圾回收</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-20T13:31:12.000Z" title="发表于 2023-04-20 21:31:12">2023-04-20</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-24T04:39:35.935Z" title="更新于 2023-06-24 12:39:35">2023-06-24</time></span></div><div class="content">常见的垃圾回收机制引用计数对每个对象维护一个引用计数，当引用该对象的对象被销毁或更新时被引用对象的引用计数自动减一，当被引用对象被创建或被赋值给其他对象时引用计数自动加一。
-缺点：
-
-降低性能
-循环引用
-
-标记-清除该方法分为两步：
-
-标记从根节点开始迭代遍历所有被引用的对象，对能够通过应用遍历访问到的对象都进行标记为“被引用”；
-清除操作。对没有被标记的内存进行清除操作。
-
-缺点：
-
-启动垃圾回收时会暂停当前所用代码的执行。
-
-分代收集分代收集的基本思想是，将堆划分成两个或者多个称为代的空间。新创建的对象存放在称为新生代中，随着垃圾回收的重复执行，生命周期较长的对象会被提升到老年代中，因此，新生代垃圾回收和老年代垃圾回收两种方式共存，分别对其空间中的对象进行垃圾回收。新生代垃圾回收的速度非常快，比老年代快几个数量级，即使新生代垃圾回收的频率更高，执行效率也仍然比老年代垃圾回收强，这是因为大多数对象的生命周期都很短，根本无需提升到老年代。
-Go的GCgo的垃圾回收机制是标记-清除算法。
-
-标记阶段。获取这些对象的状态信息。
-清扫阶段。回收状态为unreachable的对象。
-
-三色标记 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/04/14/MYSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MYSQL学习笔记"><img class="post-bg" src="/2023/04/14/MYSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MYSQL学习笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/04/14/MYSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="MYSQL学习笔记">MYSQL学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-14T07:35:05.000Z" title="发表于 2023-04-14 15:35:05">2023-04-14</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-07T14:13:10.810Z" title="更新于 2023-08-07 22:13:10">2023-08-07</time></span></div><div class="content">关系模型主键在关系数据库中，一张表中的每一行数据被称为一条记录。一条记录就是由多个字段组成的。
-对于关系表，有个很重要的约束，就是任意两条记录不能重复。不能重复不是指两条记录不完全相同，而是指能够通过某个字段唯一区分出不同的记录，这个字段被称为主键。
-联合主键关系数据库实际上还允许通过多个字段唯一标识记录，即两个或更多的字段都设置为主键，这种主键被称为联合主键。
-外键12FOREIGN KEY (class_id)REFERENCES classes (id);
-
-多对多多对多关系实际上是通过两个一对多关系实现的，即通过一个中间表，关联两个一对多关系，就形成了多对多关系：
-teachers表：
-
-
-
-id
-name
-
-
-
-1
-张老师
-
-
-2
-王老师
-
-
-3
-李老师
-
-
-4
-赵老师
-
-
-classes表：
-
-
-
-id
-name
-
-
-
-1
-一班
-
-
-2
-二班
-
-
-中间表teacher_class关联两个一对多关系：
-
-
-
-id
-teacher_id
-class_id
-
-
-
-1
-1
-1
-
-
-2
-1
-2
-
-
-3
-2
-1
-
-
-4
-2
-2
-
-
-5
-3
-1
-
-
-6
-4
-2
-
-
-索引索引是关系数据库中 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/04/13/12-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" title="12-并发编程">12-并发编程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-13T12:35:04.000Z" title="发表于 2023-04-13 20:35:04">2023-04-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-15T03:43:52.251Z" title="更新于 2023-04-15 11:43:52">2023-04-15</time></span></div><div class="content">现代操作系统提供了三种基本的构造并发程序的方法：
-
-进程。每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的虚拟地址空间，想要和其他流通信，控制流必须使用显式的进程间通信机制。
-I&#x2F;O多路复用。
-线程
-
-
-
-
-
-12.1 基于进程的并发编程12.1.1 基于进程的并发服务器代码123456789101112131415161718192021222324252627282930void echo(int connfd);void sigchld_handler(int sig) &#123;	while (waitpid(-1, 0, WNOHANG) &gt; 0) ;    return ;&#125;int main(int argc, char **argv) &#123;    int listenfd, connfd;    socklen_t clientlen;    struct sockaddr_storage clientaddr;        if (argc != 2) &#123;        fprintf(stderr, &q ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/04/12/11-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" title="11-网络编程">11-网络编程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-12T14:34:28.000Z" title="发表于 2023-04-12 22:34:28">2023-04-12</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-31T03:02:44.586Z" title="更新于 2023-07-31 11:02:44">2023-07-31</time></span></div><div class="content">本章将开发一个小但功能齐全的Web服务器，能够为Web浏览器提供静态和动态的内容
-
-
-11.1 客户端-服务器编程模型模型的基本操作是事务。
-
-客户端和服务器是进程。 一台主机可以同时运行许多不同的客户端和服务器。
-11.2 网络对于主机而言，网络只是I&#x2F;O设备，是数据源与数据接收方。网络主机的硬件组成如图所示：
-
-
-以太网以太网是一种局域网技术。一个以太网段如下图所示：
-
-电缆的一段连接到主机的适配器，一段连接到集线器的一个端口上。集线器会将数据复制到每个端口上。
-每一个以太网适配器都有一个唯一的48位地址。
-以太网段通过网桥 连接成较大的局域网，被称为桥接以太网。在一个桥接以太网里，一些电缆连接网桥与网桥，而另外一些连接网桥和集线器。这些电缆的带宽可以是不同的。在我们的示例中，网桥与网桥之间的电缆有 1 Gb&#x2F;s 的带宽，而四根网桥和集线器之间电缆的带宽却是 100 Mb&#x2F;s。
-
-
-广域网多个不兼容的局域网通过路由器连接起来。路由器对于它连接到的每个网络都有一个端口。简化的广域网模型如下：
-
-数据通过互联网传送的过程
-
-运行在主机 A 上的客户端进行一 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/4/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#content-inner">6</a><a class="page-number" href="/page/7/#content-inner">7</a><a class="extend next" rel="next" href="/page/6/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">napleon-liu</div><div class="author-info__description">Talk is cheap, give me the code.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/napleon-liu"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果我的文章对你有帮助不妨在文末扫码赞助一下。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/09/18/Ethereum%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" title="Ethereum安全分析工具"><img src="/2023/09/18/Ethereum%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ethereum安全分析工具"/></a><div class="content"><a class="title" href="/2023/09/18/Ethereum%E5%AE%89%E5%85%A8%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7/" title="Ethereum安全分析工具">Ethereum安全分析工具</a><time datetime="2023-09-18T09:01:57.000Z" title="发表于 2023-09-18 17:01:57">2023-09-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/05/%E7%A8%8B%E5%BA%8F%E5%AE%9E%E8%B7%B5%E8%AF%BE%E8%AE%BE/" title="程序实践课设"><img src="/2023/09/05/%E7%A8%8B%E5%BA%8F%E5%AE%9E%E8%B7%B5%E8%AF%BE%E8%AE%BE/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="程序实践课设"/></a><div class="content"><a class="title" href="/2023/09/05/%E7%A8%8B%E5%BA%8F%E5%AE%9E%E8%B7%B5%E8%AF%BE%E8%AE%BE/" title="程序实践课设">程序实践课设</a><time datetime="2023-09-05T02:54:40.000Z" title="发表于 2023-09-05 10:54:40">2023-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/20/gRPC/" title="gRPC"><img src="/2023/08/20/gRPC/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gRPC"/></a><div class="content"><a class="title" href="/2023/08/20/gRPC/" title="gRPC">gRPC</a><time datetime="2023-08-20T06:46:55.000Z" title="发表于 2023-08-20 14:46:55">2023-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/17/ETH/" title="ETH"><img src="/2023/08/17/ETH/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ETH"/></a><div class="content"><a class="title" href="/2023/08/17/ETH/" title="ETH">ETH</a><time datetime="2023-08-17T08:54:03.000Z" title="发表于 2023-08-17 16:54:03">2023-08-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/06/BTC-%E6%8C%96%E7%9F%BF/" title="BTC-挖矿"><img src="/2023/08/06/BTC-%E6%8C%96%E7%9F%BF/cover.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BTC-挖矿"/></a><div class="content"><a class="title" href="/2023/08/06/BTC-%E6%8C%96%E7%9F%BF/" title="BTC-挖矿">BTC-挖矿</a><time datetime="2023-08-06T10:13:23.000Z" title="发表于 2023-08-06 18:13:23">2023-08-06</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Blockchain/" style="font-size: 1.34em; color: #99a3b0">Blockchain</a> <a href="/tags/SQL/" style="font-size: 1.26em; color: #999fa8">SQL</a> <a href="/tags/Go/" style="font-size: 1.5em; color: #99a9bf">Go</a> <a href="/tags/Redis/" style="font-size: 1.18em; color: #999ca1">Redis</a> <a href="/tags/Linux/" style="font-size: 1.34em; color: #99a3b0">Linux</a> <a href="/tags/BlockChain/" style="font-size: 1.1em; color: #999">BlockChain</a> <a href="/tags/CSAPP/" style="font-size: 1.42em; color: #99a6b7">CSAPP</a> <a href="/tags/Ethereum/" style="font-size: 1.1em; color: #999">Ethereum</a> <a href="/tags/os/" style="font-size: 1.34em; color: #99a3b0">os</a> <a href="/tags/RPC/" style="font-size: 1.1em; color: #999">RPC</a> <a href="/tags/Web/" style="font-size: 1.18em; color: #999ca1">Web</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">九月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">13</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><span class="card-archive-list-count">2</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">34</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">44k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-09-27T11:47:15.508Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By napleon-liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/%E6%8A%AB%E5%A4%B4%E5%A3%AB.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Napleon"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Napleon</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/07/21/http%E5%8C%85/" title="http包"><img class="post-bg" src="/2023/07/21/http%E5%8C%85/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="http包"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/07/21/http%E5%8C%85/" title="http包">http包</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-21T05:52:10.733Z" title="发表于 2023-07-21 13:52:10">2023-07-21</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-30T06:03:10.718Z" title="更新于 2023-06-30 14:03:10">2023-06-30</time></span></div><div class="content">Go 语言中的 http 包提供了创建 http 服务或者访问 http 服务所需要的能力，不需要额外的依赖。在这篇文章中，我们会介绍这些功能的使用，以及看一下 http 包的设计思路。
+
+
+概览http标准库的各个组成部分:
+发送GET,HEAD,POST,POSTFORM请求：
+12345resp, err := http.Get(&quot;http://example.com/&quot;)...resp, err := http.Post(&quot;http://example.com/upload&quot;, &quot;image/jpeg&quot;, &amp;buf)...resp, err := http.PostForm(&quot;http://example.com/form&quot;, url.Values&#123;&quot;key&quot;:&#123;&quot;Value&quot;&#125;, &quot;id&quot;:&#123;&quot;123&quot;&#125;&#125;)
+
+客户端必须在结束时关闭响应体。
+1234 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/05/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" title="操作系统课程设计"><img class="post-bg" src="/2023/05/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统课程设计"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/05/24/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" title="操作系统课程设计">操作系统课程设计</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-24T07:30:17.000Z" title="发表于 2023-05-24 15:30:17">2023-05-24</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-23T07:50:47.579Z" title="更新于 2023-08-23 15:50:47">2023-08-23</time></span></div><div class="content">文章中的代码我都放在了github上，有需要的可以自取 。记得点个star。
+
+
+基础题目Shell编程编写shell脚本，该脚本接收两个参数，参数1作为要读写的文件，参数2作为标志位，标识是读还是写。功能完成对参数1所示文件的读写，该文件的内容为 “自己学号的后3位    MYFILE”。
+这个比较简单，稍微了解一下shell编程和常用命令就能写出来，不多赘述。
+12345678910111213141516171819# read_write.shfilename=&quot;$1&quot;flag=&quot;$2&quot;if [ &quot;$flag&quot; = 0 ]; then  # 读取文件内容  content=$(cat &quot;$filename&quot;)  echo &quot;文件内容：$content&quot;elif [ &quot;$flag&quot; = 1 ]; then  # 获取学号后3位  student_id=&quot;21069100223&quot;  last_three_digits=&quot;$&#123; ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="Linux下进程间通信"><img class="post-bg" src="/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux下进程间通信"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/05/10/Linux%E4%B8%8B%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="Linux下进程间通信">Linux下进程间通信</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-10T03:42:53.000Z" title="发表于 2023-05-10 11:42:53">2023-05-10</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-27T02:44:27.849Z" title="更新于 2023-05-27 10:44:27">2023-05-27</time></span></div><div class="content">进程的地址空间是相互独立的，因此进程之间交互数据必须需要专门的通信机制。
+概述Linux下的主要IPC手段：
+
+管道pipe。数据只能单方面流通， 只能在父子进程间进行。
+有名管道named pipe。半双工通信方式，可用于非父子进程通信。
+信号量semophore 进程间或不同进程间的同步手段。
+消息队列message queue。消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息量少，管道只能承载无格式字节流以及缓冲区大小受限的缺点。
+信号signal
+共享内存shared memory。 映射一段能被其他进程访问的内存。共享内存能被一个进程创建但是被多个进程访问。
+套接字socket。 可用于不同机器间的通信。
+
+管道管道是一个特殊的文件，这个文件只存在与内存中。创建管道时，系统为管道分配一个页面作为数据缓冲区，进行管道通信的两个进程通过读写这个缓冲区来实现通信。
+dup与dup2在子进程调用exec函数执行另外一个程序时，可以将子进程的文件描述符重定向到标准输入，新执行的程序能够从标准输入获取数据，实际上是从父进程获取输入数据。
+12345# ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/05/03/%E6%B5%85%E8%B0%88wsl/" title="浅谈wsl"><img class="post-bg" src="/2023/05/03/%E6%B5%85%E8%B0%88wsl/wsl%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅谈wsl"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/05/03/%E6%B5%85%E8%B0%88wsl/" title="浅谈wsl">浅谈wsl</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-03T13:41:39.000Z" title="发表于 2023-05-03 21:41:39">2023-05-03</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-27T02:42:23.074Z" title="更新于 2023-05-27 10:42:23">2023-05-27</time></span></div><div class="content">本文简单介绍了WSL的工作原理。
+
+
+
+
+介绍Windows Subsystem for Linux（WSL）是一个用于在本地运行linux二进制可执行文件（ELF格式）的兼容层。
+在软件工程领域，兼容层是一个允许面向旧或异质系统的二进制文件运行在特定主机系统上的接口。这意味着将面向异质系统的系统调用转换为面向主机系统。有些库会面向异质系统，这通常是为主机系统提供运行异质二进制文件的能力。而硬件兼容层工具允许硬件仿真。
+与虚拟机相比，wsl没有虚拟硬件的过程，而是直接在windows上虚拟一个linux内核，模拟linux系统调用，以运行linux执行文件。
+可以简单的将它理解为可以运行linux可执行文件的、类似于powershell的shell，具有互操作性（在linux中执行windows命令，在windows中执行linux命令）。
+虚拟机技术的原理
+HypervisorHypervisor（虚拟机管理器）是一种运行在物理服务器和操作系统之间的中间软件层,可允许多个操作系统和应用共享一套基础物理硬件，因此也可以看作是虚拟环境中的“元”操作系统，它可以协调访问服务器上的所有物理设 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/04/24/GORM%E5%9F%BA%E7%A1%80/" title="GORM学习笔记"><img class="post-bg" src="/../images/cover/go.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GORM学习笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/04/24/GORM%E5%9F%BA%E7%A1%80/" title="GORM学习笔记">GORM学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-04-24T13:58:17.000Z" title="发表于 2023-04-24 21:58:17">2023-04-24</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-19T09:33:20.447Z" title="更新于 2023-05-19 17:33:20">2023-05-19</time></span></div><div class="content">GORM的特性：
+
+全功能 ORM
+关联 (Has One，Has Many，Belongs To，Many To Many，多态，单表继承)
+Create，Save，Update，Delete，Find 中钩子方法
+支持 Preload、Joins 的预加载
+事务，嵌套事务，Save Point，Rollback To Saved Point
+Context、预编译模式、DryRun 模式
+批量插入，FindInBatches，Find&#x2F;Create with Map，使用 SQL 表达式、Context Valuer 进行 CRUD
+SQL 构建器，Upsert，数据库锁，Optimizer&#x2F;Index&#x2F;Comment Hint，命名参数，子查询
+复合主键，索引，约束
+Auto Migration
+自定义 Logger
+灵活的可扩展插件 API：Database Resolver（多数据库，读写分离）、Prometheus…
+每个特性都经过了测试的重重考验
+开发者友好
+
+模型模型是标准的struct
+例如：
+1234567891011type User ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/4/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#content-inner">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><a class="extend next" rel="next" href="/page/6/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">napleon-liu</div><div class="author-info__description">Talk is cheap, give me the code.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/napleon-liu"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果我的文章对你有帮助不妨在文末扫码赞助一下。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/29/%E6%97%A5%E5%BF%97/" title="日志">日志</a><time datetime="2023-11-29T05:44:11.000Z" title="发表于 2023-11-29 13:44:11">2023-11-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/21/6.s081lab3/" title="lab3">lab3</a><time datetime="2023-11-21T13:14:22.000Z" title="发表于 2023-11-21 21:14:22">2023-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/11/13/risc-v%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" title="risc-v代码案例"><img src="/2023/11/13/risc-v%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="risc-v代码案例"/></a><div class="content"><a class="title" href="/2023/11/13/risc-v%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" title="risc-v代码案例">risc-v代码案例</a><time datetime="2023-11-13T13:48:13.000Z" title="发表于 2023-11-13 21:48:13">2023-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/15/The-principles-of-economics/" title="The_principles_of_economics"><img src="/2023/10/15/The-principles-of-economics/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="The_principles_of_economics"/></a><div class="content"><a class="title" href="/2023/10/15/The-principles-of-economics/" title="The_principles_of_economics">The_principles_of_economics</a><time datetime="2023-10-15T04:13:23.000Z" title="发表于 2023-10-15 12:13:23">2023-10-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/30/TalentGlimpse%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/" title="TalentGlimpse评论系统">TalentGlimpse评论系统</a><time datetime="2023-09-30T08:22:53.000Z" title="发表于 2023-09-30 16:22:53">2023-09-30</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/CSAPP/" style="font-size: 1.42em; color: #99a6b7">CSAPP</a> <a href="/tags/SQL/" style="font-size: 1.26em; color: #999fa8">SQL</a> <a href="/tags/Web/" style="font-size: 1.26em; color: #999fa8">Web</a> <a href="/tags/Redis/" style="font-size: 1.18em; color: #999ca1">Redis</a> <a href="/tags/os/" style="font-size: 1.42em; color: #99a6b7">os</a> <a href="/tags/RPC/" style="font-size: 1.1em; color: #999">RPC</a> <a href="/tags/Linux/" style="font-size: 1.34em; color: #99a3b0">Linux</a> <a href="/tags/BlockChain/" style="font-size: 1.1em; color: #999">BlockChain</a> <a href="/tags/Economics/" style="font-size: 1.1em; color: #999">Economics</a> <a href="/tags/OS/" style="font-size: 1.1em; color: #999">OS</a> <a href="/tags/Mysql/" style="font-size: 1.1em; color: #999">Mysql</a> <a href="/tags/Blockchain/" style="font-size: 1.34em; color: #99a3b0">Blockchain</a> <a href="/tags/Go/" style="font-size: 1.5em; color: #99a9bf">Go</a> <a href="/tags/Ethereum/" style="font-size: 1.1em; color: #999">Ethereum</a> <a href="/tags/6-s081/" style="font-size: 1.18em; color: #999ca1">6.s081</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">十月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/09/"><span class="card-archive-list-date">九月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/05/"><span class="card-archive-list-date">五月 2023</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">13</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><span class="card-archive-list-count">2</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">39</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">46.4k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-11-29T05:46:19.104Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By napleon-liu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
   init: (str) => {
     window.typed = new Typed('#subtitle', Object.assign({
       strings: str,
