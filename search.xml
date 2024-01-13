@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>数据库设计</title>
+      <link href="/2023/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/"/>
+      <url>/2023/11/29/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h1 id="函数依赖"><a href="#函数依赖" class="headerlink" title="函数依赖"></a>函数依赖</h1><p> 知道属性a -&gt; 推导出属性b</p><h2 id="Armstrong’s-Axioms"><a href="#Armstrong’s-Axioms" class="headerlink" title="Armstrong’s Axioms"></a>Armstrong’s Axioms</h2><p><img src="/image-20231114221017332.png" alt="image-20231114221017332"></p><h2 id="Implications"><a href="#Implications" class="headerlink" title="Implications"></a>Implications</h2><p><img src="/image-20231114221158204.png" alt="image-20231114221158204"></p><h1 id="Closure-of-FDs"><a href="#Closure-of-FDs" class="headerlink" title="Closure of FDs"></a>Closure of FDs</h1><h1 id="正则覆盖"><a href="#正则覆盖" class="headerlink" title="正则覆盖"></a>正则覆盖</h1><p>函数依赖集F能推出函数依赖集G。</p><h2 id="Minimal-Cover"><a href="#Minimal-Cover" class="headerlink" title="Minimal Cover"></a>Minimal Cover</h2><h1 id="Candidate-Key"><a href="#Candidate-Key" class="headerlink" title="Candidate Key"></a>Candidate Key</h1><ol><li>决定性： K -&gt; R</li><li>K中的每个属性都不可或缺</li></ol><p><strong>主属性</strong>:出现在候选码中的属性</p><h2 id="Algorithm-to-compute-Candidate-Key"><a href="#Algorithm-to-compute-Candidate-Key" class="headerlink" title="Algorithm to compute Candidate Key"></a>Algorithm to compute Candidate Key</h2><p><img src="/image-20231115102842208.png" alt="image-20231115102842208"></p><h1 id="Normalization-Based-on-FD"><a href="#Normalization-Based-on-FD" class="headerlink" title="Normalization Based on FD"></a>Normalization Based on FD</h1><h2 id="Normal-Forms-–-1NF"><a href="#Normal-Forms-–-1NF" class="headerlink" title="Normal Forms – 1NF"></a>Normal Forms – 1NF</h2><p><strong>Concepts</strong>:A relational schema R is in first normal form if the domains of all attributes of R are atomic.</p><p>原子性：</p><ol><li>不能有组合属性如：customer(id, name(first-name,middle-initial,last-name),date-of-birth)</li><li>一个tuple每个属性只能有一个值，如电话的值不能为(18637047510,13781481432)这样的列表形式</li><li>每个属性都是独立的值，不能从中提取信息。如学号可以得到入学年份，但我们认为学号是一个独&#96;立的值</li></ol><h2 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h2><p>不存在非主属性部分依赖于候选码</p><h2 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h2><p>不存在非主属性对码的传递依赖</p><h2 id="BCNF-Boyce-Codd-Normal-Form"><a href="#BCNF-Boyce-Codd-Normal-Form" class="headerlink" title="BCNF Boyce-Codd Normal Form"></a>BCNF Boyce-Codd Normal Form</h2><p>if $\alpha \rightarrow \beta$ then $\alpha$ is a superkey for R</p><h1 id="基于多值依赖的规范化"><a href="#基于多值依赖的规范化" class="headerlink" title="基于多值依赖的规范化"></a>基于多值依赖的规范化</h1><h2 id="Multi-Valued-Depedency"><a href="#Multi-Valued-Depedency" class="headerlink" title="Multi-Valued Depedency"></a>Multi-Valued Depedency</h2><h1 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h1><p>把一个关系分成多个关系模式</p><ol><li>分过之后的关系模式必须是之前的关系模式的真子集</li><li>分解后的属性集并起来等于原属性集</li></ol><h2 id="无损分解"><a href="#无损分解" class="headerlink" title="无损分解"></a>无损分解</h2><p>分解后的通过自然连接能够还原成原关系模式</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>事务</title>
       <link href="/2023/11/29/%E4%BA%8B%E5%8A%A1/"/>
       <url>/2023/11/29/%E4%BA%8B%E5%8A%A1/</url>
